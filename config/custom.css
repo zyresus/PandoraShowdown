@@ -1,96 +1,10 @@
-/**
- * Custom CSS declarations
- *
- * If your server is registered, you can create a file named `custom.css`
- * in the `config` directory and populate it with CSS rules to override the
- * normal client styles, when the client is connected to your server. In
- * other words, you can use this facility to introduce a custom theme for
- * your server.
- */
-.userbar:before{
-        background: url(http://pldh.net/media/pokecons_action/487-origin.gif);
- }
-
-body{
-	background: url(http://i39.tinypic.com/34zg26h.png);
-  	background-size: cover;
-}
-
-.tabbar{
-  bottom: 0;
+.mainmenuwrapper {
+  background: url(http://fc05.deviantart.net/fs30/f/2008/060/b/c/Giratina_deep_in_black_by_Zeldemon.jpg)  no-repeat #161616;
+  background-size: 100% 100%;
   }
-.userbar{
-  top: 18px;
-  }
-
-  .userbar .username {
-        text-shadow: none;
-        text-shadow: 1px 1px black;
+.userlist{
+	background: #eee;  
 }
-  
-.userbar:before{
-  display: block;
-  content:"";
-        width:32px;
-        height: 32px;
-        float: left;
-        position: relative;
-        top: -9px;
-      }
-  
-.icon-user{
-     display:none; 
-    }
-
-.siderooms{
-background: #161616;
-      height: 56px;
-    }
-    
-.maintabbarbottom {
-background: linear-gradient(to bottom, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 100%);
-border: none;
-  box-shadow: none;
-  z-index:2;
-}
-
-.header {
-height: 56px;
-  background: #161616;
-}
-
-.header .logo {
-float: left;
-margin: 7px 0px 0 2px;
-}
-
-.tabbar .closebutton, .tabbar a.cur+.closebutton {
-top: 19px;
-}
-.closebutton:hover {
-color: #1b1b1b;
-}
-.closebutton {
-color: #ecf0f1;
-}
-
-.tabbar a.button.notifying {
-background: #3498db;
-}
-
-.chat-log {
-    font-size: 10pt;
-    background: url("http://i44.tinypic.com/esq1w1.png") no-repeat scroll right bottom;
-    color: #000;
-    overflow: auto;
-}
-
-.maintabbar .inner {
-  	padding-top:0px;
-    height: 56px;
-    background: #161616;
-}
-
 .menugroup .button:hover {
     background: none repeat scroll 0% 0% #6E6E6E;
     opacity: 1.0;
@@ -113,8 +27,43 @@ solid;
     color: rgb(255, 255, 255);
     border: 1px solid rgb(170, 170, 170);
     background: none repeat scroll 0% 0% #A4A4A4;
-} 
- 
+}
+.userbar{
+  top: 20px;
+  width: 212px;
+ }
+.siderooms{
+background: #161616;
+      height: 56px;
+    }
+.maintabbarbottom {
+background: linear-gradient(to bottom, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 
+100%);
+border: none;
+  box-shadow: none;
+  z-index:2;
+}
+
+.header {
+height: 56px;
+  background: #161616;
+}
+
+.header .logo {
+float: left;
+margin: 7px 0px 0 2px;
+}
+
+.tabbar a.button.notifying {
+background: #3498db;
+}
+
+.maintabbar .inner {
+  	padding-top:0px;
+    height: 56px;
+    background: #161616;
+}
+    
 .tabbar.maintabbar {
 margin-left: 170px;
 margin-right: 0px;
@@ -164,25 +113,55 @@ font-size: 11px;
 	box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,.2);
   	background: #e8e8e8;
 }
-
-.userlist{
-	background: #eee;  
+body{
+	background-color: #eee;
+}
+.tabbar a.button.notifying {
+background: #3498db;
 }
 
-.userlist li button:hover {
-background: #FEB729;
+.maintabbar .inner {
+  	padding-top:0px;
+    height: 56px;
+    background: #161616;
+}
+    
+.tabbar.maintabbar {
+margin-left: 170px;
+margin-right: 0px;
+overflow: hidden;
+  height: 60px;
+  background-position: right;
+  background-repeat: no-repeat;
 }
 
-.userlist li{
-border-bottom: 1px solid #1b1b1b;
+.tabbar a.button.cur, .tabbar a.button.cur:hover, .tabbar a.button{
+color: #ecf0f1;
+background: #333333;
+box-shadow: none;
+  border: none;
+cursor: default;
+top: 0px;
+  border-radius: 5px;
+text-shadow: none;
+  margin-left: 5px;
+  margin-top:15px;
 }
 
+.tabbar a.button:hover, .tabbar a.button.cur{
+  	background: #090909;
+    }
 
-.battle-log, .chat-log{
-    color: #000000;
-  	border-width: 0;
+.tabbar a.button {
+cursor: pointer;
+text-align: center;
+white-space: nowrap;
+text-shadow: none;
+font-size: 11px;
 }
-.mainmenuwrapper {
-  background: url(http://fc05.deviantart.net/fs30/f/2008/060/b/c/Giratina_deep_in_black_by_Zeldemon.jpg)  no-repeat #161616;
-  background-size: 100% 100%;
-  }
+.chat-log {
+    font-size: 10pt;
+    background: url("http://i44.tinypic.com/esq1w1.png") no-repeat scroll right bottom;
+    color: #000;
+    overflow: auto;
+}
