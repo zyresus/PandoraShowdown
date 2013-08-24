@@ -46,7 +46,7 @@ module.exports = (function () {
 						data[dataType] = require(path)['Battle' + dataType];
 					}
 				} catch (e) {
-					console.log('CRASH LOADING DATA: '+e.stack);
+					console.log('CRASH con la DATA: '+e.stack);
 				}
 				if (!data[dataType]) data[dataType] = {};
 			}, this);
@@ -55,16 +55,13 @@ module.exports = (function () {
 				if (fs.existsSync(path)) {
 					var configFormats = require(path).Formats;
 					for (var i=0; i<configFormats.length; i++) {
-						var format = configFormats[i];
-						var id = toId(format.name);
-						format.effectType = 'Format';
-						if (format.challengeShow === undefined) format.challengeShow = true;
-						if (format.searchShow === undefined) format.searchShow = true;
-						data.Formats[id] = format;
+						var id = toId(configFormats[i].name);
+						configFormats[i].effectType = 'Format';
+						data.Formats[id] = configFormats[i];
 					}
 				}
 			} catch (e) {
-				console.log('CRASH LOADING FORMATS: '+e.stack);
+				console.log('CRASH con los FORMATOS: '+e.stack);
 			}
 		} else {
 			var baseData = moddedTools.base.data;
@@ -75,7 +72,7 @@ module.exports = (function () {
 						data[dataType] = require(path)['Battle' + dataType];
 					}
 				} catch (e) {
-					console.log('CRASH LOADING MOD DATA: '+e.stack);
+					console.log('CRASH con la MOD DATA: '+e.stack);
 				}
 				if (!data[dataType]) data[dataType] = {};
 				for (var i in baseData[dataType]) {
@@ -181,8 +178,7 @@ module.exports = (function () {
 			if (!template.genderRatio) template.genderRatio = {M:0.5,F:0.5};
 			if (!template.tier) template.tier = 'Illegal';
 			if (!template.gen) {
-				if (template.num >= 650) template.gen = 6;
-				else if (template.num >= 494) template.gen = 5;
+				if (template.num >= 494) template.gen = 5;
 				else if (template.num >= 387) template.gen = 4;
 				else if (template.num >= 252) template.gen = 3;
 				else if (template.num >= 152) template.gen = 2;
@@ -220,8 +216,7 @@ module.exports = (function () {
 			if (!move.effectType) move.effectType = 'Move';
 			if (!move.secondaries && move.secondary) move.secondaries = [move.secondary];
 			if (!move.gen) {
-				if (move.num >= 560) move.gen = 6;
-				else if (move.num >= 468) move.gen = 5;
+				if (move.num >= 468) move.gen = 5;
 				else if (move.num >= 355) move.gen = 4;
 				else if (move.num >= 252) move.gen = 3;
 				else if (move.num >= 166) move.gen = 2;
@@ -337,8 +332,7 @@ module.exports = (function () {
 			if (!item.effectType) item.effectType = 'Item';
 			if (item.isBerry) item.fling = { basePower: 10 };
 			if (!item.gen) {
-				if (item.num >= 577) item.gen = 6;
-				else if (item.num >= 537) item.gen = 5;
+				if (item.num >= 537) item.gen = 5;
 				else if (item.num >= 377) item.gen = 4;
 				// Due to difference in storing items, gen 2 items must be specified specifically
 				else item.gen = 3;
@@ -364,8 +358,7 @@ module.exports = (function () {
 			if (!ability.category) ability.category = 'Effect';
 			if (!ability.effectType) ability.effectType = 'Ability';
 			if (!ability.gen) {
-				if (ability.num >= 165) ability.gen = 6;
-				else if (ability.num >= 124) ability.gen = 5;
+				if (ability.num >= 124) ability.gen = 5;
 				else if (ability.num >= 77) ability.gen = 4;
 				else if (ability.num >= 1) ability.gen = 3;
 				else ability.gen = 0;
@@ -469,11 +462,11 @@ module.exports = (function () {
 		do {
 			alreadyChecked[template.speciesid] = true;
 			// Stabmons hack to avoid copying all of validateSet to formats.
-			if (format.id === 'stabmons' && template.types.indexOf(this.getMove(move).type) > -1) return false;
+			if (format.id === 'stabmons' && template.types.indexOf(this.getMove(move).type) > -1) return false; 
 			if (template.learnset) {
 				if (template.learnset[move] || template.learnset['sketch']) {
 					var lset = template.learnset[move];
-					if (!lset || template.speciesid === 'smeargle') {
+					if (!lset) {
 						lset = template.learnset['sketch'];
 						sketch = true;
 					}
@@ -522,7 +515,7 @@ module.exports = (function () {
 									var dexEntry = this.getTemplate(templateid);
 									if (
 										// CAP pokemon can't breed
-										!dexEntry.isNonstandard &&
+										!dexEntry.isNonstandard && 
 										// can't breed mons from future gens
 										dexEntry.gen <= parseInt(learned.substr(0,1),10) &&
 										// genderless pokemon can't pass egg moves
@@ -703,20 +696,20 @@ module.exports = (function () {
 		}
 		var problems = [];
 		this.getBanlistTable(format);
-		if (format.team) {
+		if (format.team === 'random' || format.team === 'cc') {
 			return false;
 		}
 		if (!team || !Array.isArray(team)) {
 			if (format.canUseRandomTeam) {
 				return false;
 			}
-			return ["You sent invalid team data. If you're not using a custom client, please report this as a bug."];
+			return ["Data de equipo invalida.."];
 		}
 		if (!team.length) {
-			return ["Your team has no pokemon."];
+			return ["Tu equipo no tiene pokemon."];
 		}
 		if (team.length>6) {
-			return ["Your team has more than 6 pokemon."];
+			return ["Tu equipo tiene mas de seis pokemon."];
 		}
 		var teamHas = {};
 		for (var i=0; i<team.length; i++) {
@@ -741,8 +734,8 @@ module.exports = (function () {
 				}
 			}
 			if (bannedCombo) {
-				var clause = format.name ? " by "+format.name : '';
-				problems.push("Your team has the combination of "+bannedCombo+", which is banned"+clause+".");
+				var clause = format.name ? " por "+format.name : '';
+				problems.push("Tu team tiene la sigiente combinacion "+bannedCombo+", la cual esta baneada "+clause+".");
 			}
 		}
 
@@ -768,12 +761,12 @@ module.exports = (function () {
 		}
 		var problems = [];
 		if (!set) {
-			return ["This is not a Pokemon."];
+			return ["Eso no es un pokemon."];
 		}
 
 		var template = this.getTemplate(string(set.species));
 		if (!template.exists) {
-			return ["The Pokemon '"+set.species+"' does not exist."];
+			return ["Ese pokemon '"+set.species+"' no existe."];
 		}
 		set.species = template.species;
 
@@ -818,23 +811,23 @@ module.exports = (function () {
 		var clause = '';
 		setHas[check] = true;
 		if (banlistTable[check]) {
-			clause = typeof banlistTable[check] === 'string' ? " by "+ banlistTable[check] : '';
-			problems.push(set.species+' is banned'+clause+'.');
+			clause = typeof banlistTable[check] === 'string' ? " por la "+ banlistTable[check] : '';
+			problems.push(set.species+' esta prohibida'+clause+'.');
 		}
 		check = toId(set.ability);
 		setHas[check] = true;
 		if (banlistTable[check]) {
-			clause = typeof banlistTable[check] === 'string' ? " by "+ banlistTable[check] : '';
-			problems.push(name+"'s ability "+set.ability+" is banned"+clause+".");
+			clause = typeof banlistTable[check] === 'string' ? " por la "+ banlistTable[check] : '';
+			problems.push(name+"' La habilidad "+set.ability+" esta prohibida"+clause+".");
 		}
 		check = toId(set.item);
 		setHas[check] = true;
 		if (banlistTable[check]) {
-			clause = typeof banlistTable[check] === 'string' ? " by "+ banlistTable[check] : '';
-			problems.push(name+"'s item "+set.item+" is banned"+clause+".");
+			clause = typeof banlistTable[check] === 'string' ? " por la "+ banlistTable[check] : '';
+			problems.push(name+"' El item "+set.item+" esta prohibido"+clause+".");
 		}
 		if (banlistTable['Unreleased'] && item.isUnreleased) {
-			problems.push(name+"'s item "+set.item+" is unreleased.");
+			problems.push(name+" El item "+set.item+" no ha sido habilidado.");
 		}
 		setHas[toId(set.ability)] = true;
 		if (banlistTable['illegal']) {
@@ -846,27 +839,27 @@ module.exports = (function () {
 				totalEV += set.evs[k];
 			}
 			if (totalEV > 510) {
-				problems.push(name+" has more than 510 total EVs.");
+				problems.push(name+" Posee mas de 150 EVs.");
 			}
 
-			// Don't check abilities for metagames with All Abilities
+			// Don't check abilities for metagames with All Abilities 
 			if (this.gen <= 2) {
 				set.ability = '';
 			} else if (!banlistTable['ignoreillegalabilities']) {
 				if (!ability.name) {
-					problems.push(name+" needs to have an ability.");
+					problems.push(name+" debe tener una habilidad.");
 				} else if (ability.name !== template.abilities['0'] &&
 					ability.name !== template.abilities['1'] &&
 					ability.name !== template.abilities['DW']) {
-					problems.push(name+" can't have "+set.ability+".");
+					problems.push(name+" no puede tener "+set.ability+".");
 				}
 				if (ability.name === template.abilities['DW']) {
 					isDW = true;
-
+	
 					if (!template.dreamWorldRelease && banlistTable['Unreleased']) {
-						problems.push(name+"'s Dream World ability is unreleased.");
+						problems.push(name+" Esta habilidad no ha sido habilitada.");
 					} else if (set.level < 10 && (template.maleOnlyDreamWorld || template.gender === 'N')) {
-						problems.push(name+" must be at least level 10 with its DW ability.");
+						problems.push(name+" debe ser minimo nivel 10.");
 					}
 					if (template.maleOnlyDreamWorld) {
 						set.gender = 'M';
@@ -895,19 +888,19 @@ module.exports = (function () {
 				check = move.id;
 				setHas[check] = true;
 				if (banlistTable[check]) {
-					clause = typeof banlistTable[check] === 'string' ? " by "+ banlistTable[check] : '';
-					problems.push(name+"'s move "+set.moves[i]+" is banned"+clause+".");
+					clause = typeof banlistTable[check] === 'string' ? " por la "+ banlistTable[check] : '';
+					problems.push(name+" El movimiento "+set.moves[i]+" esta prohibido"+clause+".");
 				}
 
 				if (banlistTable['illegal']) {
 					var problem = this.checkLearnset(move, template, lsetData);
 					if (problem) {
-						var problemString = name+" can't learn "+move.name;
+						var problemString = name+" no puede aprender "+move.name;
 						if (problem.type === 'incompatible') {
 							if (isDW) {
-								problemString = problemString.concat(" because it's incompatible with its ability or another move.");
+								problemString = problemString.concat(" por que no es compatible debido a otro movimiento.");
 							} else {
-								problemString = problemString.concat(" because it's incompatible with another move.");
+								problemString = problemString.concat(" por que no es compatible debido a otro movimiento.");
 							}
 						} else if (problem.type === 'oversketched') {
 							problemString = problemString.concat(" because it can only sketch "+problem.maxSketches+" move"+(problem.maxSketches>1?"s":"")+".");
@@ -930,23 +923,23 @@ module.exports = (function () {
 					if (eventTemplate.eventPokemon) eventData = eventTemplate.eventPokemon[parseInt(splitSource[0],10)];
 					if (eventData) {
 						if (eventData.nature && eventData.nature !== set.nature) {
-							problems.push(name+" must have a "+eventData.nature+" nature because it comes from a specific event.");
+							problems.push(name+" debe tener la naturaleza "+eventData.nature+" por que es de evento.");
 						}
 						if (eventData.shiny) {
 							set.shiny = true;
 						}
 						if (eventData.generation < 5) eventData.isDW = false;
 						if (eventData.isDW !== undefined && eventData.isDW !== isDW) {
-							problems.push(name+(isDW?" can't have":" must have")+" its DW ability because it comes from a specific event.");
+							problems.push(name+(isDW?" no puede tener":" debe tener")+" la habilidad DW ya que es de evento.");
 						}
 						if (eventData.abilities && eventData.abilities.indexOf(ability.id) < 0) {
-							problems.push(name+" must have "+eventData.abilities.join(" or ")+" because it comes from a specific event.");
+							problems.push(name+" debe tener "+eventData.abilities.join(" or ")+" por que viene de un evento.");
 						}
 						if (eventData.gender) {
 							set.gender = eventData.gender;
 						}
 						if (eventData.level && set.level < eventData.level) {
-							problems.push(name+" must be at least level "+eventData.level+" because it comes from a specific event.");
+							problems.push(name+" debe ser al menos de nivel "+eventData.level+" por que viene evento.");
 						}
 					}
 					isDW = false;
@@ -954,7 +947,7 @@ module.exports = (function () {
 			}
 			if (isDW && template.gender) {
 				if (!lsetData.sources && lsetData.sourcesBefore < 5) {
-					problems.push(name+" has a DW ability - it can't have moves only learned before gen 5.");
+					problems.push(name+" tiene una habilidad DW - Esto no es posible anterior a la 5ta generacion.");
 				} else if (lsetData.sources) {
 					var compatibleSource = false;
 					for (var i=0,len=lsetData.sources.length; i<len; i++) {
@@ -964,21 +957,21 @@ module.exports = (function () {
 						}
 					}
 					if (!compatibleSource) {
-						problems.push(name+" has moves incompatible with its DW ability.");
+						problems.push(name+" tiene movimientos no-compatibles con su habilidad.");
 					}
 				}
 			}
 			if (set.level < template.evoLevel) {
 				// FIXME: Event pokemon given at a level under what it normally can be attained at gives a false positive
-				problems.push(name+" must be at least level "+template.evoLevel+".");
+				problems.push(name+" debe ser al menos de nivel "+template.evoLevel+".");
 			}
 			if (!lsetData.sources && lsetData.sourcesBefore <= 3 && this.getAbility(set.ability).gen === 4 && !template.prevo) {
-				problems.push(name+" has a gen 4 ability and isn't evolved - it can't use anything from gen 3.");
+				problems.push(name+" tiene una habilidad de la tercera Generacion.");
 			}
 		}
 		setHas[toId(template.tier)] = true;
 		if (banlistTable[template.tier]) {
-			problems.push(name+" is in "+template.tier+", which is banned.");
+			problems.push(name+" es en "+template.tier+", lo cual esta baneado.");
 		}
 
 		if (teamHas) {
@@ -997,12 +990,12 @@ module.exports = (function () {
 				if (j == 0) {
 					bannedCombo += format.setBanTable[i][j];
 				} else {
-					bannedCombo += ' and '+format.setBanTable[i][j];
+					bannedCombo += ' y '+format.setBanTable[i][j];
 				}
 			}
 			if (bannedCombo) {
-				clause = format.name ? " by "+format.name : '';
-				problems.push(name+" has the combination of "+bannedCombo+", which is banned"+clause+".");
+				clause = format.name ? " por la "+format.name : '';
+				problems.push(name+" tiene la combinacion "+bannedCombo+", lo cual esta prohibido"+clause+".");
 			}
 		}
 
