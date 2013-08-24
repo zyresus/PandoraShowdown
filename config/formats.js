@@ -7,14 +7,14 @@ exports.Formats = [
 	///////////////////////////////////////////////////////////////////
 
 	{
-		name: "Random Battle",
+		name: "Batalla Aleatoria",
 		section: "Singles",
 
 		team: 'random',
 		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
 	},
 	{
-		name: "Unrated Random Battle",
+		name: "Batalla Aleatoria (Sin puntaje)",
 		section: "Singles",
 
 		team: 'random',
@@ -23,26 +23,11 @@ exports.Formats = [
 		ruleset: ['Random Battle']
 	},
 	{
-		name: "OU",
-		section: "Singles",
-
-		searchShow: false,
-		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
-		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew']
-	},
-	{
-		name: "OU (current)",
+		name: "Muy usados (OU)",
 		section: "Singles",
 
 		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
 		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew']
-	},
-	{
-		name: "OU (suspect test)",
-		section: "Singles",
-
-		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
-		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew', 'Keldeo', 'Keldeo-Resolute']
 	},
 	{
 		name: "Ubers",
@@ -52,32 +37,25 @@ exports.Formats = [
 		banlist: []
 	},
 	{
-		name: "UU",
+		name: "Poco Usados (UU)",
 		section: "Singles",
 
 		ruleset: ['OU'],
-		banlist: ['OU', 'BL', 'Drought', 'Sand Stream']
+		banlist: ['Uber', 'OU', 'BL', 'Drought', 'Sand Stream']
 	},
-	/*{
-		name: "UU (suspect test)",
-		section: "Singles",
-
-		ruleset: ['OU'],
-		banlist: ['OU', 'BL', 'Drought', 'Sand Stream', 'Froslass']
-	},*/
 	{
-		name: "RU",
+		name: "Muy Poco Usados (RU)",
 		section: "Singles",
 
 		ruleset: ['UU'],
-		banlist: ['UU', 'BL2', 'Shell Smash + Baton Pass', 'Snow Warning']
+		banlist: ['Uber', 'OU', 'BL', 'Drought', 'Sand Stream', 'UU', 'BL2', 'Shell Smash + Baton Pass', 'Snow Warning']
 	},
 	{
-		name: "NU",
+		name: "No Usados (NU)",
 		section: "Singles",
 
 		ruleset: ['RU'],
-		banlist: ['RU','BL3']
+		banlist: ['Uber', 'OU', 'BL', 'Drought', 'Sand Stream', 'UU', 'BL2', 'Shell Smash + Baton Pass', 'Snow Warning','RU','BL3']
 	},
 	{
 		name: "LC",
@@ -520,7 +498,6 @@ exports.Formats = [
 
 		mod: 'gen3',
 		searchShow: false,
-		debug: true,
 		ruleset: []
 	},
 	{
@@ -528,6 +505,7 @@ exports.Formats = [
 		section: "Past Generations",
 
 		mod: 'gen2',
+		searchShow: false,
 		debug: true,
 		ruleset: ['Pokemon', 'Standard'],
 		banlist: ['Uber', 'Mean Look + Hypnosis + Perish Song']
@@ -557,6 +535,96 @@ exports.Formats = [
 		searchShow: false,
 		debug: true,
 		ruleset: ['Pokemon']
-	}
+	},
 
+	{
+		name: "Monotipo Desafiante",
+		section: "Other Metagames",
+      
+		mod: 'challengemonotype',
+		team: 'randomCCMono',
+		ruleset: ['Pokemon', 'HP Percentage Mod']
+	},
+	{
+		name: "Monotipo Aleatorio (Global)",
+		section: "Other Metagames",
+
+		mod: 'randommonotypeglobal',
+		team: 'randomMono',
+		ruleset: ['Pokemon', 'HP Percentage Mod']
+	},
+	{
+		name: "Monotipo Aleatorio",
+		section: "Other Metagames",
+
+		mod: 'randommonotypeside',      
+		team: 'randomMonoside',
+		ruleset: ['Pokemon', 'HP Percentage Mod']
+	},
+	{
+		name: "Aerea Aleatoria (Standard)",
+		section: "Other Metagames",
+
+		mod: 'randomskystandard',
+		team: 'randomSky',
+		ruleset: ['Pokemon', 'HP Percentage Mod']
+	},
+	{
+		name: "Aerea Aleatoria (Balloon)",
+		section: "Other Metagames",
+
+		mod: 'randomskyballoon',
+		team: 'randomSkyBalloon',
+		ruleset: ['Pokemon', 'HP Percentage Mod']
+	},
+	{
+                	name: "Batalla Aerea",
+                	section: "Other Metagames",
+
+                	ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview', 'Balloon Clause', 'Sky Clause'],
+                	banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew', 'Iron Ball', 'Gravity']
+        	},
+        	{
+                	name: "Batalla Aerea Ubers",
+                	section: "Other Metagames",
+
+                	ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview', 'Balloon Clause', 'Sky Clause'],
+                	banlist: []
+        	},
+        	{
+                	name: "Ubers Aleatorios",
+                	section: "Other Metagames",
+
+		mod: 'randomubers',
+		team: 'randomUbers',
+                	ruleset: ['Pokemon', 'HP Percentage Mod'],
+                	banlist: []
+        	},
+        	{
+                	name: "Minicopa Aleatoria",
+                	section: "Other Metagames",
+
+		mod: 'randomlittlecup',
+		team: 'randomLC',
+                	ruleset: ['Pokemon', 'HP Percentage Mod'],
+                	banlist: []
+        	},
+        	{
+                	name: "Pesados Aleatorio",
+                	section: "Other Metagames",
+
+		mod: 'randomheavymons',
+		team: 'randomHeavy',
+                	ruleset: ['Pokemon', 'HP Percentage Mod'],
+                	banlist: []
+        	},
+        	{
+                	name: "CAP Aleatorio",
+                	section: "Other Metagames",
+
+		mod: 'randomcaps',
+		team: 'randomCap',
+                	ruleset: ['Pokemon', 'HP Percentage Mod'],
+                	banlist: []
+        	}
 ];
