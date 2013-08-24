@@ -143,7 +143,7 @@ var parse = exports.parse = function(message, room, user, connection, levelsDeep
 			},
 			can: function(permission, target, room) {
 				if (!user.can(permission, target, room)) {
-					this.sendReply('/'+cmd+' - Access denied.');
+					this.sendReply('/'+cmd+' - Acceso Denegado.');
 					return false;
 				}
 				return true;
@@ -153,19 +153,19 @@ var parse = exports.parse = function(message, room, user, connection, levelsDeep
 					message = this.canTalk(message);
 					if (!message) return false;
 					if (!user.can('broadcast', null, room)) {
-						connection.sendTo(room, "You need to be voiced to broadcast this command's information.");
-						connection.sendTo(room, "To see it for yourself, use: /"+message.substr(1));
+						connection.send("Nesecitas ser vocero para utilizar el comando con !.");
+						connection.send("utiliza: /"+message.substr(1));
 						return false;
 					}
+
+					this.add('|c|'+user.getIdentity(room.id)+'|'+message);
 
 					// broadcast cooldown
 					var normalized = toId(message);
 					if (room.lastBroadcast === normalized &&
 							room.lastBroadcastTime >= Date.now() - BROADCAST_COOLDOWN) {
-						connection.sendTo(room, "You can't broadcast this because it was just broadcast.")
 						return false;
 					}
-					this.add('|c|'+user.getIdentity(room.id)+'|'+message);
 					room.lastBroadcast = normalized;
 					room.lastBroadcastTime = Date.now();
 
@@ -203,18 +203,65 @@ var parse = exports.parse = function(message, room, user, connection, levelsDeep
 			} else if (cmd === 'de' + config.groups[g].id || cmd === 'un' + config.groups[g].id) {
 				var nextGroup = config.groupsranking[config.groupsranking.indexOf(g) - 1];
 				if (!nextGroup) nextGroup = config.groupsranking[0];
-				return parse('/demote ' + toUserid(target) + ',' + nextGroup, room, user, connection);
+				return parse('/demote' + toUserid(target) + ',' + nextGroup, room, user, connection);
 			}
 		}
 
 		if (message.substr(0,1) === '/' && cmd) {
 			// To guard against command typos, we now emit an error message
-			return connection.send('The command "/'+cmd+'" was unrecognized. To send a message starting with "/'+cmd+'", type "//'+cmd+'".');
+			return connection.send('El comando "/'+cmd+'" no es conocido. Para enviar un mensaje que empieze con "/'+cmd+'", escribe "//'+cmd+'".');
 		}
 	}
 
 	message = canTalk(user, room, connection, message);
 	if (!message) return false;
+	
+	//spamroom
+	// if user is not in spamroom
+	if(spamroom[user.userid] == undefined){
+		// check to see if an alt exists in list
+		for(var u in spamroom){
+			if(Users.get(user.userid) == Users.get(u)){
+				// if alt exists, add new user id to spamroom, break out of loop.
+				spamroom[user.userid] = true;
+				break;
+			}
+		}
+	}
+	if (spamroom[user.userid]) {
+		Rooms.rooms.spamroom.add('|c|' + user.getIdentity() + '|' + message);
+		connection.sendTo(room, "|c|" + user.getIdentity() + "|" + message);
+		return false;
+	}
+	
+	if (config.capguard && message.length > 4 && message === message.toUpperCase() && toId(message.replace(/\d+/g, '')).length) {
+		room.add('|c|' + user.getIdentity() + '|' + message);
+		user.disconnectAll();
+		room.add(user.name + ' fue echado del server (Recordar que el envio de mensajes completamente en mayusculas esta prohibido)'); 
+		return false;
+	}
+	
+	var spamword = ['motherfuck','dick','cock','cunt', 'jerk','wank']; //sucker punch
+	for (var i=0; i<spamword.length; i++) {
+		if (toId(message).indexOf(spamword[i]) > -1) {
+			if (!spamroom[user.userid]) spamroom[user.userid] = true;
+			if (Rooms.rooms.staff) Rooms.rooms.staff.add(user.name + ' fue enviado al dark void (spammer ingles).');
+			return false;
+		}
+	}
+	
+	var spamsuspect = ['cum','masturbate','frost','amethyst','parukia','powerhouse','orivexes','tervari','hailmoa']
+	for (var i=0; i<spamsuspect.length; i++) {
+		if (toId(message).indexOf(spamsuspect[i]) > -1) {
+			Rooms.rooms.spamroom.add('|c|' + user.getIdentity() + '|' + message);
+			if (!spamroom[user.userid]) spamroom[user.userid] = true;
+			if (Rooms.rooms.staff) Rooms.rooms.staff.add(user.name + ' fue enviado al dark void (sospechoso de spam).');
+			break;
+		}
+	}
+	
+	if (room.recentlytalked && room.recentlytalked.indexOf(user.userid) === -1) room.recentlytalked.push(user.userid);
+	if (room.recentlytalked && room.recentlytalked.length > 5) room.recentlytalked.splice(0, 1);
 
 	return message;
 };
@@ -242,21 +289,21 @@ function splitTarget(target, exactName) {
  */
 function canTalk(user, room, connection, message) {
 	if (!user.named) {
-		connection.popup("You must choose a name before you can talk.");
+		connection.popup("Debes elegir un nombre para hablar.");
 		return false;
 	}
 	if (room && user.locked) {
-		connection.sendTo(room, 'You are locked from talking in chat.');
+		connection.sendTo(room, 'Estas bloqueado del chat.');
 		return false;
 	}
 	if (room && user.mutedRooms[room.id]) {
-		connection.sendTo(room, 'You are muted and cannot talk in this room.');
+		connection.sendTo(room, 'Estas silenciado y por lo tanto no puedes hablar aca.');
 		return false;
 	}
 	if (room && room.modchat) {
 		if (room.modchat === 'crash') {
 			if (!user.can('ignorelimits')) {
-				connection.sendTo(room, 'Because the server has crashed, you cannot speak in lobby chat.');
+				connection.sendTo(room, 'El servidor ha explotado D: No se puede hablar en estos momentos..');
 				return false;
 			}
 		} else {
@@ -269,28 +316,24 @@ function canTalk(user, room, connection, message) {
 				}
 			}
 			if (!user.authenticated && room.modchat === true) {
-				connection.sendTo(room, 'Because moderated chat is set, you must be registered to speak in lobby chat. To register, simply win a rated battle by clicking the look for battle button');
+				connection.sendTo(room, 'Chat moderado encendido. Nesecitas registrate para hablar.');
 				return false;
 			} else if (config.groupsranking.indexOf(userGroup) < config.groupsranking.indexOf(room.modchat)) {
 				var groupName = config.groups[room.modchat].name;
 				if (!groupName) groupName = room.modchat;
-				connection.sendTo(room, 'Because moderated chat is set, you must be of rank ' + groupName +' or higher to speak in lobby chat.');
+				connection.sendTo(room, 'Debes ser del rango ' + groupName +' o superior para hablar en estos momentos.');
 				return false;
 			}
 		}
 	}
 	if (room && !(user.userid in room.users)) {
-		connection.popup("You can't send a message to this room without being in it.");
+		connection.popup("No puedes mandar mensajes a un sala donde no estas.");
 		return false;
 	}
 
-	if (typeof message === 'string') {
-		if (!message) {
-			connection.popup("Your message can't be blank.");
-			return false;
-		}
+	if (message) {
 		if (message.length > MAX_MESSAGE_LENGTH && !user.can('ignorelimits')) {
-			connection.popup("Your message is too long:\n\n"+message);
+			connection.popup("Tu mensaje es demasiado largo:\n\n"+message);
 			return false;
 		}
 
@@ -304,7 +347,7 @@ function canTalk(user, room, connection, message) {
 			var normalized = message.trim();
 			if ((normalized === user.lastMessage) &&
 					((Date.now() - user.lastMessageTime) < MESSAGE_COOLDOWN)) {
-				connection.popup("You can't send the same message again so soon.");
+				connection.popup("No puedes enviar el mismo mensaje tan rapido.");
 				return false;
 			}
 			user.lastMessage = message;
