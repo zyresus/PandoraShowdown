@@ -3,9 +3,9 @@ exports.BattleFormats = {
 	// Singles
 	///////////////////////////////////////////////////////////////////
 
-	randombattle: {
-		name: "Random Battle",
-		section: "Singles",
+	batallaaleatoria: {
+		name: "Batalla Aleatoria",
+		section: "Aleatorias",
 
 		effectType: 'Format',
 		team: 'random',
@@ -16,72 +16,150 @@ exports.BattleFormats = {
 		searchShow: true,
 		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
 	},
-	unratedrandombattle: {
-		name: "Unrated Random Battle",
-		section: "Singles",
+	
+	batallaaleatoriasinrating: {
+		name: "Batalla Aleatoria [Sin Rating]",
+		section: "Aleatorias",
 
 		effectType: 'Format',
 		team: 'random',
 		canUseRandomTeam: true,
 		searchShow: true,
-		ruleset: ['Random Battle']
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod']
 	},
-	ou: {
-		name: "OU",
-		section: "Singles",
+	
+	monotipoaleatorioglobal: {
+		name: "Monotipo Aleatorio (Global)",
+		section: "Aleatorias",
 
+		mod: 'randommonotypeglobal',
 		effectType: 'Format',
-		challengeDefault: true,
+		team: 'randomMono',
+		canUseRandomTeam: true,
+		rated: true,
+		challengeShow: true,
+		searchShow: false,
+		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod']
+	},
+	
+	monotipoaleatorio: {
+		name: "Monotipo Aleatorio",
+		section: "Aleatorias",
+
+		mod: 'randommonotypeside',
+		effectType: 'Format',
+		team: 'randomMonoside',
+		canUseRandomTeam: true,
 		rated: true,
 		challengeShow: true,
 		searchShow: true,
-		isTeambuilderFormat: true,
-		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
-		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew']
+		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod']
 	},
-	/**
-	oucurrent: {
-		name: "OU (current)",
-		section: "Singles",
 
+	aereaaleatoriastandard: {
+		name: "Aerea Aleatoria (Standard)",
+		section: "Aleatorias",
+
+		mod: 'randomskystandard',
 		effectType: 'Format',
-		challengeDefault: true,
+		team: 'randomSky',
+		canUseRandomTeam: true,
 		rated: true,
 		challengeShow: true,
 		searchShow: true,
-		isTeambuilderFormat: true,
-		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
-		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew']
+		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod']
 	},
-	oususpecttest: {
-		name: "OU (suspect test)",
-		section: "Singles",
 
+	aereaaleatoriaballoon: {
+		name: "Aerea Aleatoria (Balloon)",
+		section: "Aleatorias",
+
+		mod: 'randomskyballoon',
 		effectType: 'Format',
-		challengeDefault: true,
+		team: 'randomSkyBalloon',
+		canUseRandomTeam: true,
+		rated: false,
+		challengeShow: false,
+		searchShow: true,
+		ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod']
+	},
+	         
+	ubersaleatorios: {
+         name: "Ubers Aleatorios",
+         section: "Aleatorias",
+
+		mod: 'randomubers',
+                effectType: 'Format',
+		team: 'randomUbers',
+		canUseRandomTeam: true,
 		rated: true,
 		challengeShow: true,
 		searchShow: true,
-		isTeambuilderFormat: true,
-		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
-		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew', 'Landorus']
-	},*/
-	// ounostealthrock: {
-	// 	name: "OU (no Stealth Rock)",
-	// 	section: "Singles",
+                ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod'],
+                banlist: []
+         },
 
-	// 	effectType: 'Format',
-	// 	challengeDefault: true,
-	// 	rated: true,
-	// 	challengeShow: true,
-	// 	searchShow: true,
-	// 	isTeambuilderFormat: true,
-	// 	ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
-	// 	banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew', 'Stealth Rock']
-	// },
+	minicopaaleatorialc: {
+        name: "Minicopa Aleatoria (LC)",
+        section: "Aleatorias",
+
+		mod: 'randomlittlecup',
+                effectType: 'Format',
+		team: 'randomLC',
+		canUseRandomTeam: true,
+		rated: true,
+		challengeShow: true,
+		searchShow: true,
+                ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod'],
+                banlist: []
+         },
+
+     	pesadosaleatorio: {
+                name: "Pesados Aleatorio",
+                section: "Aleatorias",
+
+		mod: 'randomheavymons',
+                effectType: 'Format',
+		team: 'randomHeavy',
+		canUseRandomTeam: true,
+		rated: true,
+		challengeShow: false,
+		searchShow: true,
+                ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod'],
+                banlist: []
+         },
+
+         capaleatorio: {
+                name: "CAP Aleatorio",
+                section: "Aleatorias",
+
+		mod: 'randomcaps',
+                effectType: 'Format',
+		team: 'randomCap',
+		canUseRandomTeam: true,
+		rated: true,
+		challengeShow: true,
+		searchShow: true,
+                ruleset: ['Pokemon', 'HP Percentage Mod', 'Sleep Clause Mod'],
+                banlist: []
+         },
+         
+	doblesaleatorias: {
+		name: "Dobles Aleatorias",
+		section: 'Aleatorias',
+
+		effectType: 'Format',
+		gameType: 'doubles',
+		team: 'random',
+		canUseRandomTeam: true,
+		rated: true,
+		challengeShow: true,
+		debug: true,
+		ruleset: ['PotD', 'Pokemon', 'HP Percentage Mod']
+	},
 	ubers: {
 		name: "Ubers",
-		section: "Singles",
+		section: "Simples",
 
 		effectType: 'Format',
 		rated: true,
@@ -91,9 +169,22 @@ exports.BattleFormats = {
 		ruleset: ['Pokemon', 'Team Preview', 'Standard Ubers'],
 		banlist: []
 	},
-	uu: {
-		name: "UU",
-		section: "Singles",
+	muyusadosou: {
+		name: "Muy Usados (OU)",
+		section: "Simples",
+
+		effectType: 'Format',
+		challengeDefault: true,
+		rated: true,
+		challengeShow: true,
+		searchShow: true,
+		isTeambuilderFormat: true,
+		ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
+		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew']
+	},
+	pocousadosuu: {
+		name: "Poco Usados (UU)",
+		section: "Simples",
 
 		effectType: 'Format',
 		rated: true,
@@ -101,47 +192,22 @@ exports.BattleFormats = {
 		searchShow: true,
 		isTeambuilderFormat: true,
 		ruleset: ['OU'],
-		banlist: ['OU', 'BL', 'Drought', 'Sand Stream']
+		banlist: ['Uber', 'OU', 'BL', 'Drought', 'Sand Stream']
 	},
-	uususpecttest: {
-		name: "UU (suspect test)",
-		section: "Singles",
-
-		effectType: 'Format',
-		rated: false,
-		challengeShow: false,
-		searchShow: false,
-		isTeambuilderFormat: true,
-		ruleset: ['OU'],
-		banlist: ['OU', 'BL', 'Drought', 'Sand Stream', 'Froslass']
-	},
-	ru: {
-		name: "RU",
-		section: "Singles",
-
+	muypocousadosru: {
+		name: "Muy Poco Usados (RU)",
+		section: "Simples",
 		effectType: 'Format',
 		rated: true,
 		challengeShow: true,
-		//searchShow: true,
+		searchShow: true,
 		isTeambuilderFormat: true,
 		ruleset: ['UU'],
-		banlist: ['UU', 'BL2', 'Shell Smash + Baton Pass']
+		banlist: ['Uber', 'OU', 'BL', 'Drought', 'Sand Stream','UU', 'BL2', 'Shell Smash + Baton Pass', 'Snow Warning']
 	},
-	rususpecttest: {
-		name: "RU (suspect test)",
-		section: "Singles",
-
-		effectType: 'Format',
-		rated: false,
-		challengeShow: false,
-		searchShow: false,
-		isTeambuilderFormat: true,
-		ruleset: ['UU'],
-		banlist: ['UU', 'BL2', 'Shell Smash + Baton Pass']
-	},
-	nu: {
-		name: "NU",
-		section: "Singles",
+	nousadosnu: {
+		name: "No Usados (NU)",
+		section: "Simples",
 
 		effectType: 'Format',
 		rated: true,
@@ -149,11 +215,11 @@ exports.BattleFormats = {
 		searchShow: true,
 		isTeambuilderFormat: true,
 		ruleset: ['RU'],
-		banlist: ['RU','BL3']
+		banlist: ['Uber', 'OU', 'BL', 'Drought', 'Sand Stream','UU', 'BL2', 'Shell Smash + Baton Pass','RU','BL3']
 	},
-	lc: {
-		name: "LC",
-		section: "Singles",
+	copamenorlc: {
+		name: "Copa Menor (LC)",
+		section: "Simples",
 
 		effectType: 'Format',
 		maxLevel: 5,
@@ -166,7 +232,7 @@ exports.BattleFormats = {
 	},
 	cap: {
 		name: "CAP",
-		section: "Singles",
+		section: "Simples",
 
 		effectType: 'Format',
 		rated: true,
@@ -176,40 +242,14 @@ exports.BattleFormats = {
 		ruleset: ['CAP Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview'],
 		banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew']
 	},
-	customgame: {
-		name: "Custom Game",
-		section: "Singles",
+	gbu: {
+		name: "GBU",
+		section: "Simples",
 
 		effectType: 'Format',
 		challengeShow: true,
-		canUseRandomTeam: true,
-		debug: true,
-		maxLevel: 1000,
-		defaultLevel: 100,
-		// no restrictions, for serious (other than team preview)
-		ruleset: ['Team Preview']
-	},
-	customgamenoteampreview: {
-		name: "Custom Game (no Team Preview)",
-		section: "Singles",
-
-		effectType: 'Format',
-		challengeShow: true,
-		canUseRandomTeam: true,
-		debug: true,
-		maxLevel: 1000,
-		defaultLevel: 100,
-		// no restrictions, for serious
-		ruleset: []
-	},
-	gbusingles: {
-		name: "GBU Singles",
-		section: "Singles",
-
-		effectType: 'Format',
-		challengeShow: true,
-		rated: true,
-		searchShow: true,
+		rated: false,
+		searchShow: false,
 		validateSet: function(set) {
 			if (!set.level || set.level >= 50) set.forcedLevel = 50;
 			return [];
@@ -234,9 +274,9 @@ exports.BattleFormats = {
 			'Keldeo', 'Keldeo-Resolute',  'Meloetta', 'Genesect'
 		]
 	},
-	globalshowdown: {
-		name: "Global Showdown",
-		section: "Singles",
+	showdownglobal: {
+		name: "Showdown Global",
+		section: "Simples",
 
 		effectType: 'Format',
 		challengeShow: true,
@@ -256,13 +296,41 @@ exports.BattleFormats = {
 		ruleset: ['Pokemon', 'Species Clause', 'Item Clause', 'Team Preview GBU'],
 		banlist: ['Unreleased', 'Illegal', 'Sky Drop', 'Dark Void', 'Soul Dew', 'Chatot']
 	},
+	juegosimplesinreglas: {
+		name: "Juego Simple sin reglas",
+		section: "Sin Reglas",
+
+		effectType: 'Format',
+		searchshow: true,
+		challengeShow: true,
+		canUseRandomTeam: true,
+		debug: true,
+		maxLevel: 1000,
+		defaultLevel: 100,
+		// no restrictions, for serious (other than team preview)
+		ruleset: ['Team Preview']
+	},
+	sinreglasdoble: {
+		name: "Sin Reglas Doble",
+		section: 'Sin Reglas',
+
+		effectType: 'Format',
+		gameType: 'doubles',
+		challengeShow: true,
+		canUseRandomTeam: true,
+		debug: true,
+		maxLevel: 1000,
+		defaultLevel: 100,
+		// no restrictions, for serious (other than team preview)
+		ruleset: ['Team Preview']
+	},
 
 	// Doubles
 	///////////////////////////////////////////////////////////////////
 
-	doublesvgc2013: {
-		name: "Doubles VGC 2013",
-		section: 'Doubles',
+	doblevgc13: {
+		name: "Doble (VGC'13)",
+		section: 'Dobles',
 
 		effectType: 'Format',
 		gameType: 'doubles',
@@ -278,7 +346,7 @@ exports.BattleFormats = {
 		},
 		maxForcedLevel: 50,
 		ruleset: ['Pokemon', 'Team Preview VGC', 'Species Clause', 'Item Clause'],
-		banlist: ['Unreleased', 'Illegal', 'Sky Drop', 'Dark Void', 'Soul Dew',
+		banlist: ['Unreleased', 'Illegal', 'Dark Void', 'Soul Dew',
 			'Mewtwo',
 			'Mew',
 			'Lugia',
@@ -307,9 +375,9 @@ exports.BattleFormats = {
 			'Genesect'
 		]
 	},
-	smogondoubles: {
-		name: "Smogon Doubles",
-		section: 'Doubles',
+	doblesmogon: {
+		name: "Doble (Smogon)",
+		section: 'Dobles',
 
 		effectType: 'Format',
 		gameType: 'doubles',
@@ -317,7 +385,7 @@ exports.BattleFormats = {
 		searchShow: true,
 		rated: true,
 		ruleset: ['Pokemon', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'OHKO Clause', 'Moody Clause', 'Evasion Moves Clause', 'Evasion Abilities Clause', 'HP Percentage Mod'],
-		banlist: ['Unreleased', 'Illegal', 'Dark Void', 'Soul Dew',
+		banlist: ['Unreleased', 'Illegal', 'Dark Void', 'Soul Dew', 'Sky Drop',
 			'Mewtwo',
 			'Lugia',
 			'Ho-Oh',
@@ -333,23 +401,9 @@ exports.BattleFormats = {
 			'Kyurem-White'
 		]
 	},
-	doublesrandombattledev: {
-		name: "Doubles Random Battle (dev)",
-		section: 'Doubles',
-
-		effectType: 'Format',
-		gameType: 'doubles',
-		team: 'random',
-		canUseRandomTeam: true,
-		rated: true,
-		searchShow: true,
-		challengeShow: true,
-		debug: true,
-		ruleset: ['PotD', 'Pokemon', 'HP Percentage Mod']
-	},
 	doubleschallengecup: {
 		name: "Doubles Challenge Cup",
-		section: 'Doubles',
+		section: 'Dobles',
 
 		effectType: 'Format',
 		gameType: 'doubles',
@@ -360,27 +414,13 @@ exports.BattleFormats = {
 		debug: true,
 		ruleset: ['Pokemon', 'HP Percentage Mod']
 	},
-	doublescustomgame: {
-		name: "Doubles Custom Game",
-		section: 'Doubles',
-
-		effectType: 'Format',
-		gameType: 'doubles',
-		challengeShow: true,
-		canUseRandomTeam: true,
-		debug: true,
-		maxLevel: 1000,
-		defaultLevel: 100,
-		// no restrictions, for serious (other than team preview)
-		ruleset: ['Team Preview']
-	},
 
 	// Other Metagames
 	///////////////////////////////////////////////////////////////////
 	
 	stabmons: {
 		name: "STABmons",
-		section: "OM of the Month",
+		section: "OM del Mes",
 
 		effectType: 'Format',
 		rated: true,
@@ -397,7 +437,7 @@ exports.BattleFormats = {
 	seasonalaverageaugust: {
 		effectType: 'Format',
 		name: "[Seasonal] Average August",
-		section: "OM of the Month",
+		section: "OM del Mes",
 		team: 'randomSeasonalAA',
 		canUseRandomTeam: true,
 		rated: true,
@@ -450,7 +490,7 @@ exports.BattleFormats = {
 	},
 	challengecup: {
 		name: "Challenge Cup",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		team: 'randomCC',
@@ -462,7 +502,7 @@ exports.BattleFormats = {
 	},
 	challengecup1vs1: {
 		name: "Challenge Cup 1-vs-1",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		team: 'randomCC',
@@ -481,11 +521,11 @@ exports.BattleFormats = {
 	},
 	hackmons: {
 		name: "Hackmons",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
-		rated: true,
-		challengeShow: true,
+		rated: false,
+		challengeShow: false,
 		searchShow: true,
 		isTeambuilderFormat: true,
 		ruleset: ['Pokemon'],
@@ -493,10 +533,10 @@ exports.BattleFormats = {
 	},
 	balancedhackmons: {
 		name: "Balanced Hackmons",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
-		rated: true,
+		rated: false,
 		challengeShow: true,
 		searchShow: true,
 		isTeambuilderFormat: true,
@@ -505,7 +545,7 @@ exports.BattleFormats = {
 	},
 	gennextou: {
 		name: "Gen-NEXT OU",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		mod: 'gennext',
 		effectType: 'Format',
@@ -515,7 +555,7 @@ exports.BattleFormats = {
 	},
 	oumonotype: {
 		name: "OU Monotype",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		rated: true,
@@ -527,7 +567,7 @@ exports.BattleFormats = {
 	},
 	glitchmons: {
 		name: "Glitchmons",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		rated: true,
@@ -539,7 +579,7 @@ exports.BattleFormats = {
 	},
 	lcubers: {
 		name: "LC Ubers",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		maxLevel: 5,
@@ -549,7 +589,7 @@ exports.BattleFormats = {
 	},
 	lcuu: {
 		name: "LC UU",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		maxLevel: 5,
@@ -559,7 +599,7 @@ exports.BattleFormats = {
 	},
 	dreamworld: {
 		name: "Dream World",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		challengeShow: true,
@@ -569,7 +609,7 @@ exports.BattleFormats = {
 	},
 	tiershift: {
 		name: "Tier Shift",
-		section: 'Other Metagames',
+		section: 'Otros Metajuegos',
 
 		mod: 'tiershift',
 		effectType: 'Format',
@@ -582,7 +622,7 @@ exports.BattleFormats = {
 	},
 	"1v1": {
 		name: "1v1",
-		section: 'Other Metagames',
+		section: 'Otros Metajuegos',
 
 		effectType: 'Format',
 		rated: true,
@@ -619,7 +659,7 @@ exports.BattleFormats = {
 	},
 	pu: {
 		name: "PU",
-		section: "Other Metagames",
+		section: "Otros Metajuegos",
 
 		effectType: 'Format',
 		challengeShow: true,
@@ -628,12 +668,79 @@ exports.BattleFormats = {
 		banlist: ["Charizard", "Wartortle", "Kadabra", "Golem", "Haunter", "Exeggutor", "Weezing", "Kangaskhan", "Pinsir", "Lapras", "Ampharos", "Misdreavus", "Piloswine", "Miltank", "Ludicolo", "Swellow", "Gardevoir", "Ninjask", "Torkoal", "Cacturne", "Altaria", "Armaldo", "Gorebyss", "Regirock", "Regice", "Bastiodon", "Floatzel", "Drifblim", "Skuntank", "Lickilicky", "Probopass", "Rotom-Fan", "Samurott", "Musharna", "Gurdurr", "Sawk", "Carracosta", "Garbodor", "Sawsbuck", "Alomomola", "Golurk", "Braviary", "Electabuzz", "Electrode", "Liepard", "Tangela", "Eelektross", "Ditto", "Seismitoad", "Zangoose", "Roselia", "Serperior", "Metang", "Tauros", "Cradily", "Primeape", "Scolipede", "Jynx", "Basculin", "Gigalith", "Camerupt", "Golbat"]
 	},
 
+	// Otros Metajuegos
+	///////////////////////////////////////////////////////////////////
+	
+	battledome: {
+		name: "Battle Dome",
+		section: "Otros Metajuegos",
+		
+		effectType: 'Format',
+		rated: true,
+		challengeShow: true,
+		isTeambuilderFormat: true,
+		ruleset: ['Pokemon', 'Standard', 'Team Preview Dome', 'Battle Dome Clause'],
+		banlist: ['Kyogre','Groudon','Rayquaza']
+	},
+	
+	battlefactory: {
+		name: "Battle Factory",
+		section: "Otros Metajuegos",
+
+		effectType: 'Format',
+		team: 'random',
+		canUseRandomTeam: true,
+		rated: true,
+		//challengeShow: true,
+		//searchShow: true,
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Team Preview GBU']
+	},
+
+	challengemonotype: {
+		name: "Challenge Monotype",
+		section: "Otros Metajuegos",
+      
+		mod: 'challengemonotype',
+		effectType: 'Format',
+		team: 'randomCCMono',
+		canUseRandomTeam: true,
+		rated: true,
+		challengeShow: true,
+		searchShow: true,
+		ruleset: ['Pokemon', 'HP Percentage Mod']
+	},
+
+
+
+	skybattles: {
+                 name: "Sky Battles",
+                 section: "Otros Metajuegos",
+                 effectType: 'Format',
+                 rated: true,
+                 challengeShow: true,
+                 searchShow: true,
+                 isTeambuilderFormat: true,
+                 ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview', 'Balloon Clause', 'Sky Clause'],
+                 banlist: ['Uber', 'Drizzle ++ Swift Swim', 'Soul Dew', 'Iron Ball', 'Gravity']
+         },
+         skybattlesubers: {
+                 name: "Sky Battles Ubers",
+                 section: "Otros Metajuegos",
+                 effectType: 'Format',
+                 rated: false,
+                 challengeShow: true,
+                 searchShow: false,
+                 isTeambuilderFormat: true,
+                 ruleset: ['Pokemon', 'Standard', 'Evasion Abilities Clause', 'Team Preview', 'Balloon Clause', 'Sky Clause'],
+                 banlist: []
+         },
+
 	// Past Generations
 	///////////////////////////////////////////////////////////////////
 
 	gen4oubeta: {
 		name: "[Gen 4] OU (beta)",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen4',
 		effectType: 'Format',
@@ -647,21 +754,21 @@ exports.BattleFormats = {
 	},
 	gen4uubeta: {
 		name: "[Gen 4] UU (beta)",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen4',
 		effectType: 'Format',
 		challengeDefault: true,
-		rated: true,
+		rated: false,
 		challengeShow: true,
-		searchShow: true,
+		searchShow: false,
 		isTeambuilderFormat: true,
 		ruleset: ['Pokemon', 'Standard'],
 		banlist: ['Uber', 'OU', 'BL']
 	},
 	gen4hackmons: {
 		name: "[Gen 4] Hackmons",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen4',
 		effectType: 'Format',
@@ -671,7 +778,7 @@ exports.BattleFormats = {
 	},
 	gen4customgame: {
 		name: "[Gen 4] Custom Game",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen4',
 		effectType: 'Format',
@@ -682,7 +789,7 @@ exports.BattleFormats = {
 	},
 	gen3hackmons: {
 		name: "[Gen 3] Hackmons",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen3',
 		effectType: 'Format',
@@ -692,16 +799,17 @@ exports.BattleFormats = {
 	},
 	gen3customgame: {
 		name: "[Gen 3] Custom Game",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen3',
+		debug: true,
 		effectType: 'Format',
 		challengeShow: true,
 		ruleset: []
 	},
 	gen1oubeta: {
 		name: "[Gen 1] OU (beta)",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen1',
 		effectType: 'Format',
@@ -715,7 +823,7 @@ exports.BattleFormats = {
 	},
 	gen1customgame: {
 		name: "[Gen 1] Custom Game",
-		section: "Past Generations",
+		section: "Generaciones Pasadas",
 
 		mod: 'gen1',
 		effectType: 'Format',
@@ -723,7 +831,31 @@ exports.BattleFormats = {
 		debug: true,
 		ruleset: ['Pokemon']
 	},
+  gen2oubeta: {
+    name: "[Gen 2] OU (beta)",
+    section: "Generaciones Pasadas",
 
+    mod: 'gen2',
+    effectType: 'Format',
+    challengeDefault: true,
+    rated: true,
+    challengeShow: true,
+    searchShow: true,
+	debug: true,
+    isTeambuilderFormat: true,
+    ruleset: ['Pokemon', 'Standard'],
+    banlist: ['Uber', 'Mean Look + Hypnosis + Perish Song']
+  },
+  gen2customgame: {
+    name: "[Gen 2] Custom Game",
+    section: "Past Generations",
+
+    mod: 'gen2',
+    effectType: 'Format',
+    challengeShow: true,
+    debug: true,
+    ruleset: ['Pokemon']
+  },
 
 	standardnext: {
 		effectType: 'Banlist',
@@ -758,38 +890,38 @@ exports.BattleFormats = {
 
 			if (set.species === set.name) delete set.name;
 			if (template.gen > this.gen) {
-				problems.push(set.species+' does not exist in gen '+this.gen+'.');
+				problems.push(set.species+' no existe en la generacion '+this.gen+'.');
 			} else if (template.isNonstandard) {
-				problems.push(set.species+' is not a real Pokemon.');
+				problems.push(set.species+' no es un pokemon autentico.');
 			}
 			if (set.ability) {
 				var ability = this.getAbility(set.ability);
 				if (ability.gen > this.gen) {
-					problems.push(ability.name+' does not exist in gen '+this.gen+'.');
+					problems.push(ability.name+' no existe en la generacion '+this.gen+'.');
 				} else if (ability.isNonstandard) {
-					problems.push(ability.name+' is not a real ability.');
+					problems.push(ability.name+' no es una habilidad autentica.');
 				}
 			}
 			if (set.moves) for (var i=0; i<set.moves.length; i++) {
 				var move = this.getMove(set.moves[i]);
 				if (move.gen > this.gen) {
-					problems.push(move.name+' does not exist in gen '+this.gen+'.');
+					problems.push(move.name+' no existe en la generacion '+this.gen+'.');
 				} else if (move.isNonstandard) {
-					problems.push(move.name+' is not a real move.');
+					problems.push(move.name+' no es un movimiento autentico.');
 				}
 			}
 			if (item) {
 				if (item.gen > this.gen) {
-					problems.push(item.name+' does not exist in gen '+this.gen+'.');
+					problems.push(item.name+' no existe en la generacion '+this.gen+'.');
 				} else if (item.isNonstandard) {
-					problems.push(item.name + ' is not a real item.');
+					problems.push(item.name + ' no es un objeto autentico.');
 				}
 			}
 			if (set.moves && set.moves.length > 4) {
-				problems.push((set.name||set.species) + ' has more than four moves.');
+				problems.push((set.name||set.species) + ' tiene mas de cuatro movimientos.');
 			}
 			if (set.level && set.level > 100) {
-				problems.push((set.name||set.species) + ' is higher than level 100.');
+				problems.push((set.name||set.species) + ' tiene nivel superior a 100.');
 			}
 
 			// ----------- legality line ------------------------------------------
@@ -876,7 +1008,7 @@ exports.BattleFormats = {
 		onPotD: '',
 		onStart: function() {
 			if (this.effect.onPotD) {
-				this.add('rule', 'Pokemon of the Day: '+this.effect.onPotD);
+				this.add('rule', 'Pokemon del Dia: '+this.effect.onPotD);
 			}
 		}
 	},
@@ -940,29 +1072,44 @@ exports.BattleFormats = {
 			this.makeRequest('teampreview', 3);
 		}
 	},
+	teampreviewdome: {
+		onStartPriority: -10,
+		onStart: function() {
+			this.add('clearpoke');
+			for (var i=0; i<this.sides[0].pokemon.length; i++) {
+				this.add('poke', this.sides[0].pokemon[i].side.id, this.sides[0].pokemon[i].details.replace(/Arceus(\-[a-zA-Z\?]+)?/, 'Arceus-*'));
+			}
+			for (var i=0; i<this.sides[1].pokemon.length; i++) {
+				this.add('poke', this.sides[1].pokemon[i].side.id, this.sides[1].pokemon[i].details.replace(/Arceus(\-[a-zA-Z\?]+)?/, 'Arceus-*'));
+			}
+		},
+		onTeamPreview: function() {
+			this.makeRequest('teampreview', 2);
+		}
+	},
 	littlecup: {
 		effectType: 'Rule',
 		validateSet: function(set) {
 			var template = this.getTemplate(set.species || set.name);
 			if (template.prevo) {
-				return [set.species+" isn't the first in its evolution family."];
+				return [set.species+" no es el primero en su familia evolutiva."];
 			}
 			if (!template.nfe) {
-				return [set.species+" doesn't have an evolution family."];
+				return [set.species+" no tiene una familia evolutiva."];
 			}
 		}
 	},
 	speciesclause: {
 		effectType: 'Rule',
 		onStart: function() {
-			this.add('rule', 'Species Clause: Limit one of each Pokemon');
+			this.add('rule', 'Clausula de Especie: Hasta un Pokemon de cada especie');
 		},
 		validateTeam: function(team, format) {
 			var speciesTable = {};
 			for (var i=0; i<team.length; i++) {
 				var template = this.getTemplate(team[i].species);
 				if (speciesTable[template.num]) {
-					return ["You are limited to one of each pokemon by Species Clause.","(You have more than one "+template.name+")"];
+					return ["Puedes tener hasta una pokebola de cada pokemon segun la Clausula de Especie.","(Tienes dos o mas "+template.name+")"];
 				}
 				speciesTable[template.num] = true;
 			}
@@ -971,7 +1118,7 @@ exports.BattleFormats = {
 	itemclause: {
 		effectType: 'Rule',
 		onStart: function() {
-			this.add('rule', 'Item Clause: Limit one of each item');
+			this.add('rule', 'Clausula de Objeto: Hasta un objeto de cada tipo');
 		},
 		validateTeam: function(team, format) {
 			var itemTable = {};
@@ -979,7 +1126,7 @@ exports.BattleFormats = {
 				var item = toId(team[i].item);
 				if (!item) continue;
 				if (itemTable[item]) {
-					return ["You are limited to one of each item by Item Clause.","(You have more than one "+this.getItem(item).name+")"];
+					return ["Puedes tener equipado hasta una unidad de cada objeto segun la Clausula de Objeto.","(Tienes dos o mas "+this.getItem(item).name+")"];
 				}
 				itemTable[item] = true;
 			}
@@ -988,14 +1135,14 @@ exports.BattleFormats = {
 	ohkoclause: {
 		effectType: 'Rule',
 		onStart: function() {
-			this.add('rule', 'OHKO Clause: OHKO moves are banned');
+			this.add('rule', 'Clausula de Golpe Fulminante: los movimientos fulminantes (OHKO) estan prohibidos');
 		},
 		validateSet: function(set) {
 			var problems = [];
 			if (set.moves) {
 				for (var i in set.moves) {
 					var move = this.getMove(set.moves[i]);
-					if (move.ohko) problems.push(move.name+' is banned by OHKO Clause.');
+					if (move.ohko) problems.push(move.name+' esta prohibido segun la Clausula de Golpe Fulminante (OHKO).');
 				}
 			}
 			return problems;
@@ -1006,7 +1153,7 @@ exports.BattleFormats = {
 		name: 'Evasion Abilities Clause',
 		banlist: ['Sand Veil', 'Snow Cloak'],
 		onStart: function() {
-			this.add('rule', 'Evasion Abilities Clause: Evasion abilities are banned');
+			this.add('rule', 'Clausula de Habilidades Evasivas: las habilidades de evasion estan prohibidas');
 		}
 	},
 	evasionmovesclause: {
@@ -1014,7 +1161,7 @@ exports.BattleFormats = {
 		name: 'Evasion Moves Clause',
 		banlist: ['Minimize', 'Double Team'],
 		onStart: function() {
-			this.add('rule', 'Evasion Moves Clause: Evasion moves are banned');
+			this.add('rule', 'Clausula de Movimientos Evasivos: los movimientos de evasion estan prohibidos');
 		}
 	},
 	moodyclause: {
@@ -1022,21 +1169,21 @@ exports.BattleFormats = {
 		name: 'Moody Clause',
 		banlist: ['Moody'],
 		onStart: function() {
-			this.add('rule', 'Moody Clause: Moody is banned');
+			this.add('rule', 'Clausula de Moody: la habilidad Moody esta prohibida');
 		}
 	},
 	hppercentagemod: {
 		effectType: 'Rule',
 		name: 'HP Percentage Mod',
 		onStart: function() {
-			this.add('rule', 'HP Percentage Mod: HP is reported as percentages');
+			this.add('rule', 'Modo de Porcentaje de HP: el HP es reportado como porcentaje');
 			this.reportPercentages = true;
 		}
 	},
 	sleepclausemod: {
 		effectType: 'Rule',
 		onStart: function() {
-			this.add('rule', 'Sleep Clause Mod: Limit one foe put to sleep');
+			this.add('rule', 'Clausula de Dormir: solo puedes dormir a uno de tus oponentes');
 		},
 		onSetStatus: function(status, target, source) {
 			if (source && source.side === target.side) {
@@ -1048,7 +1195,7 @@ exports.BattleFormats = {
 					if (pokemon.status === 'slp') {
 						if (!pokemon.statusData.source ||
 							pokemon.statusData.source.side !== pokemon.side) {
-							this.add('-message', 'Sleep Clause Mod activated.');
+							this.add('-message', 'La Clausula de Dormir esta activa.');
 							return false;
 						}
 					}
@@ -1059,7 +1206,7 @@ exports.BattleFormats = {
 	freezeclause: {
 		effectType: 'Rule',
 		onStart: function() {
-			this.add('rule', 'Freeze Clause: Limit one foe frozen');
+			this.add('rule', 'Clausula de Congelacion: solo puedes congelar a uno de tus oponentes');
 		},
 		onSetStatus: function(status, target, source) {
 			if (source && source.side === target.side) {
@@ -1069,7 +1216,7 @@ exports.BattleFormats = {
 				for (var i=0; i<target.side.pokemon.length; i++) {
 					var pokemon = target.side.pokemon[i];
 					if (pokemon.status === 'frz') {
-						this.add('-message', 'Freeze Clause activated.');
+						this.add('-message', 'La Clausula de Congelacion esta activa.');
 						return false;
 					}
 				}
@@ -1079,7 +1226,7 @@ exports.BattleFormats = {
 	sametypeclause: {
 		effectType: 'Rule',
 		onStart: function() {
-			this.add('rule', 'Same Type Clause: Pokemon in a team must share a type');
+			this.add('rule', 'Clausula de Monotipo: todos los pokemon de un equipo deben compartir algun tipo');
 		},
 		validateTeam: function(team, format) {
 			var typeTable = {};
@@ -1100,7 +1247,60 @@ exports.BattleFormats = {
 					return;
 				}
 			}
-			return ["Your team must share a type."];
+			return ["Tu equipo debe compartir algun tipo."];
 		}
-	}
+	},
+
+	battledomeclause: {
+                 effectType: 'Rule',
+                 name: 'Battle Dome Clause',
+                 onStart: function() {
+                        this.add('rule', 'Clausula de Domo de Batalla: tu equipo debe estar formado por un maximo de 3 pokemon.');
+                },
+                validateTeam: function(team, format) {
+                	if (team.length != 3) return ["Tu equipo debe estar formado por exactamente 3 pokemon segun la Clausula de Cupula de Batalla."];
+                }
+        },
+
+	balloonclause: {
+                 effectType: 'Rule',
+                 name: 'Balloon Clause',
+                 onStart: function() {
+                         this.add('rule', 'Clausula de Air Balloon: solo puedes portar hasta un Air Balloon');
+                },
+                 validateTeam: function(team, format) {
+                         var noBalloon = true;
+                         for (var i=0; i<team.length; i++) {
+                                 var item = team[i].item;
+                                 if (!item) continue;
+                                 if (item.name=='Air Balloon') {
+					if (noBalloon==false) return ["Estas limitado a tener como maximo un Air Balloon segun la Clausula de Air Balloon."];
+					noBalloon = false;
+                                 }
+                         }
+                 }
+        }, 
+
+	skyclause: {
+		effectType: 'Rule',
+                onStart: function() {
+			this.add('rule', 'Batalla Aerea: solo se permite pokemon que puedan volar o levitar por algun medio.');
+		},
+                validateSet: function(set) {
+			var template = this.getTemplate(set.species);
+                        var flying=(template.types[0]=="Flying" || template.types[1]=="Flying");
+
+                        var knowsfly=false;
+                        if (set.moves) {
+                        	for (var i=0; i<set.moves.length; i++) {
+					var move = this.getMove(set.moves[i]);
+					if (move.id == 'fly') knowsfly=true;
+				}
+			}
+			if (!(knowsfly || set.item == 'Air Balloon' || set.ability == 'Levitate' || flying)) {
+				return [set.species+" es incapaz de participar en batallas aereas."];
+                        }
+                }
+        }
+
 };
