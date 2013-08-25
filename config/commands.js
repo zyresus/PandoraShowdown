@@ -145,6 +145,15 @@
 
 var commands = exports.commands = {
 
+	desatorar: 'unstuck',
+	unstuck: function(target, room, user) {
+		if (!this.can('hotpatch')) return;
+		for (var uid in Users.users) {
+			Users.users[uid].chatQueue = null;
+			Users.users[uid].chatQueueTimeout = null;
+		}
+	},
+
 	roomkick: function(target, room, user) {
 	    target = toId(target);
 	    targetUser = Users.get(target);
