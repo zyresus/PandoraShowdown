@@ -203,7 +203,7 @@ var parse = exports.parse = function(message, room, user, connection, levelsDeep
 			} else if (cmd === 'de' + config.groups[g].id || cmd === 'un' + config.groups[g].id) {
 				var nextGroup = config.groupsranking[config.groupsranking.indexOf(g) - 1];
 				if (!nextGroup) nextGroup = config.groupsranking[0];
-				return parse('/demote' + toUserid(target) + ',' + nextGroup, room, user, connection);
+				return parse('/demote ' + toUserid(target) + ',' + nextGroup, room, user, connection);
 			}
 		}
 
@@ -215,53 +215,6 @@ var parse = exports.parse = function(message, room, user, connection, levelsDeep
 
 	message = canTalk(user, room, connection, message);
 	if (!message) return false;
-	
-	//spamroom
-	// if user is not in spamroom
-	if(spamroom[user.userid] == undefined){
-		// check to see if an alt exists in list
-		for(var u in spamroom){
-			if(Users.get(user.userid) == Users.get(u)){
-				// if alt exists, add new user id to spamroom, break out of loop.
-				spamroom[user.userid] = true;
-				break;
-			}
-		}
-	}
-	if (spamroom[user.userid]) {
-		Rooms.rooms.spamroom.add('|c|' + user.getIdentity() + '|' + message);
-		connection.sendTo(room, "|c|" + user.getIdentity() + "|" + message);
-		return false;
-	}
-	
-	if (config.capguard && message.length > 4 && message === message.toUpperCase() && toId(message.replace(/\d+/g, '')).length) {
-		room.add('|c|' + user.getIdentity() + '|' + message);
-		user.disconnectAll();
-		room.add(user.name + ' fue echado del server (Recordar que el envio de mensajes completamente en mayusculas esta prohibido)'); 
-		return false;
-	}
-	
-	var spamword = ['motherfuck','dick','cock','cunt', 'jerk','wank']; //sucker punch
-	for (var i=0; i<spamword.length; i++) {
-		if (toId(message).indexOf(spamword[i]) > -1) {
-			if (!spamroom[user.userid]) spamroom[user.userid] = true;
-			if (Rooms.rooms.staff) Rooms.rooms.staff.add(user.name + ' fue enviado al dark void (spammer ingles).');
-			return false;
-		}
-	}
-	
-	var spamsuspect = ['cum','masturbate','frost','amethyst','parukia','powerhouse','orivexes','tervari','hailmoa']
-	for (var i=0; i<spamsuspect.length; i++) {
-		if (toId(message).indexOf(spamsuspect[i]) > -1) {
-			Rooms.rooms.spamroom.add('|c|' + user.getIdentity() + '|' + message);
-			if (!spamroom[user.userid]) spamroom[user.userid] = true;
-			if (Rooms.rooms.staff) Rooms.rooms.staff.add(user.name + ' fue enviado al dark void (sospechoso de spam).');
-			break;
-		}
-	}
-	
-	if (room.recentlytalked && room.recentlytalked.indexOf(user.userid) === -1) room.recentlytalked.push(user.userid);
-	if (room.recentlytalked && room.recentlytalked.length > 5) room.recentlytalked.splice(0, 1);
 
 	return message;
 };
