@@ -443,7 +443,7 @@ var User = (function () {
 			Rooms.get(i,'lobby').onUpdateIdentity(this);
 		}
 	};
-	var bannedNameStartChars = {'~':1, '&':1, '@':1, '%':1, '+':1, '-':1, '!':1, '?':1, '#':1, ' ':1};
+	var bannedNameStartChars = {'~':1, '&':1, '@':1, '%':1, '+':1, '-':1, '!':1, '?':1, '#':1, ' ':1, '$':1};
 	/**
 	 *
 	 * @param name        The name you want
@@ -465,7 +465,7 @@ var User = (function () {
 		for (var i in this.roomCount) {
 			var room = Rooms.get(i);
 			if (room && room.rated && (this.userid === room.rated.p1 || this.userid === room.rated.p2)) {
-				this.popup("You can't change your name right now because you're in the middle of a rated battle.");
+				this.popup("No puedes cambiar un nombre a mitad de batalla.");
 				return false;
 			}
 		}
@@ -484,12 +484,12 @@ var User = (function () {
 			// technically it's not "taken", but if your client doesn't warn you
 			// before it gets to this stage it's your own fault for getting a
 			// bad error message
-			this.send('|nametaken|'+"|You did not specify a name.");
+			this.send('|nametaken|'+"|No has especificado un nombre.");
 			return false;
 		} else {
 			for (var w in bannedWords) {
 				if (userid.indexOf(w) >= 0) {
-					this.send('|nametaken|'+"|That name contains a banned word or phrase.");
+					this.send('|nametaken|'+"|Este nombre contiene una palabra prohibida.");
 					return false;
 				}
 			}
@@ -498,7 +498,7 @@ var User = (function () {
 			}
 		}
 		if (users[userid] && !users[userid].authenticated && users[userid].connected && !auth) {
-			this.send('|nametaken|'+name+"|Someone is already using the name \""+users[userid].name+"\".");
+			this.send('|nametaken|'+name+"|Alguien ya esta utilizando el nombre \""+users[userid].name+"\".");
 			return false;
 		}
 
@@ -513,7 +513,7 @@ var User = (function () {
 				self.finishRename(success, tokenData, token, auth, challenge);
 			});
 		} else {
-			this.send('|nametaken|'+name+"|Your authentication token was invalid.");
+			this.send('|nametaken|'+name+"|Token de recocimiento invalido.");
 		}
 
 		return false;
@@ -539,11 +539,11 @@ var User = (function () {
 					var host = tokenDataSplit[4];
 					if (config.tokenhosts.length === 0) {
 						config.tokenhosts.push(host);
-						console.log('Added ' + host + ' to valid tokenhosts');
+						console.log('Agregado ' + host + ' a los tokenhost');
 						require('dns').lookup(host, function(err, address) {
 							if (err || (address === host)) return;
 							config.tokenhosts.push(address);
-							console.log('Added ' + address + ' to valid tokenhosts');
+							console.log('Agregado ' + address + ' a los tokenhost validos');
 						});
 					} else if (config.tokenhosts.indexOf(host) === -1) {
 						invalidHost = true;
@@ -682,7 +682,7 @@ var User = (function () {
 		} else {
 			console.log('BODY: "" nameRegistered');
 			// rename failed
-			this.send('|nametaken|'+name+"|The name you chose is registered");
+			this.send('|nametaken|'+name+"|El nombre que elegiste ya esta registrado/");
 		}
 		this.renamePending = false;
 	};
@@ -850,13 +850,13 @@ var User = (function () {
 		if (typeof mmr === 'number') {
 			this.mmrCache[formatid] = mmr;
 		} else {
-			this.mmrCache[formatid] = Math.floor((Number(mmr.rpr)*2+Number(mmr.r))/3);
+			this.mmrCache[formatid] = (parseInt(mmr.r,10) + parseInt(mmr.rpr,10))/2;
 		}
 	};
 	User.prototype.mute = function(roomid, time, force, noRecurse) {
 		if (!roomid) roomid = 'lobby';
 		if (this.mutedRooms[roomid] && !force) return;
-		if (!time) time = 7*60000; // default time: 7 minutes
+		if (!time) time = 10*60000; // default time: 7 minutes
 		if (time < 1) time = 1; // mostly to prevent bugs
 		if (time > 90*60000) time = 90*60000; // limit 90 minutes
 		// recurse only once; the root for-loop already mutes everything with your IP
@@ -879,7 +879,7 @@ var User = (function () {
 		if (this.mutedRooms[roomid]) {
 			clearTimeout(this.mutedRooms[roomid]);
 			delete this.mutedRooms[roomid];
-			if (expired) this.popup("Your mute has expired.");
+			if (expired) this.popup("El tiempo de tu silencio ha expirado.");
 			this.updateIdentity(roomid);
 		}
 	};
@@ -980,27 +980,27 @@ var User = (function () {
 		if (!type) type = 'challenge';
 
 		if (Rooms.global.lockdown) {
-			var message = "The server is shutting down. Battles cannot be started at this time.";
+			var message = "El server se ha apagado. No se pueden iniciar nuevas batallas.";
 			if (Rooms.global.lockdown === 'ddos') {
-				message = "The server is under attack. Battles cannot be started at this time.";
+				message = "El server se ha apagado. No se pueden iniciar nuevas batallas.";
 			}
 			connection.popup(message);
 			return false;
 		}
 		if (ResourceMonitor.countPrepBattle(connection.ip || connection.latestIp, this.name)) {
-			connection.popup("Due to high load, you are limited to 6 battles every 3 minutes.");
+			connection.popup("El limite de batalla es 6 batallas por minuto.");
 			return false;
 		}
 
 		var format = Tools.getFormat(formatid);
 		if (!format[''+type+'Show']) {
-			connection.popup("That format is not available.");
+			connection.popup("Formato invalido.");
 			return false;
 		}
 		var team = this.team;
 		var problems = Tools.validateTeam(team, formatid);
 		if (problems) {
-			connection.popup("Your team was rejected for the following reasons:\n\n- "+problems.join("\n- "));
+			connection.popup("Tu equipo ha sido rechazado por las siguienes razones:\n\n- "+problems.join("\n- "));
 			return false;
 		}
 		return true;
@@ -1100,7 +1100,7 @@ var User = (function () {
 			if (!this.chatQueue) this.chatQueue = []; // this should never happen
 			if (this.chatQueue.length > 6) {
 				connection.sendTo(room, '|raw|' +
-					"<strong class=\"message-throttle-notice\">Your message was not sent because you've been typing too quickly.</strong>"
+					"<strong class=\"message-throttle-notice\">Tu mensaje no fue enviado ya que estas mandando muchos mensajes.</strong>"
 				);
 				return false;
 			} else {
