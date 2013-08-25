@@ -279,27 +279,16 @@ var BattlePokemon = (function() {
 			this.set.ivs[i] = clampIntRange(this.set.ivs[i], 0, 31);
 		}
 
-		var hpTypes = ['Fighting','Flying','Poison','Ground','Rock','Bug','Ghost','Steel','Fire','Water','Grass','Electric','Psychic','Ice','Dragon','Dark'];
-		if (this.battle.gen && this.battle.gen === 2) {
-			// Gen 2 specific Hidden Power check. IVs are still treated 0-31 so we get them 0-15
-			var atkDV = Math.floor(this.set.ivs.atk / 2);
-			var defDV = Math.floor(this.set.ivs.def / 2);
-			var speDV = Math.floor(this.set.ivs.spe / 2);
-			var spcDV = Math.floor(this.set.ivs.spa / 2);
-			this.hpType = hpTypes[4 * (atkDV % 4) + (defDV % 4)];
-			this.hpPower = Math.floor((5 * ((spcDV >> 3) + (2 * (speDV >> 3)) + (4 * (defDV >> 3)) + (8 * (atkDV >> 3))) + (spcDV>2?3:spcDV)) / 2 + 31);
-		} else {
-			// Hidden Power check for gen 3 onwards
-			var hpTypeX = 0, hpPowerX = 0;
-			var i = 1;
-			for (var s in stats) {
-				hpTypeX += i * (this.set.ivs[s] % 2);
-				hpPowerX += i * (Math.floor(this.set.ivs[s] / 2) % 2);
-				i *= 2;
-			}
-			this.hpType = hpTypes[Math.floor(hpTypeX * 15 / 63)];
-			this.hpPower = Math.floor(hpPowerX * 40 / 63) + 30;
+		var hpTypeX = 0, hpPowerX = 0;
+		var i = 1;
+		for (var s in stats) {
+			hpTypeX += i * (this.set.ivs[s] % 2);
+			hpPowerX += i * (Math.floor(this.set.ivs[s] / 2) % 2);
+			i *= 2;
 		}
+		var hpTypes = ['Fighting','Flying','Poison','Ground','Rock','Bug','Ghost','Steel','Fire','Water','Grass','Electric','Psychic','Ice','Dragon','Dark'];
+		this.hpType = hpTypes[Math.floor(hpTypeX * 15 / 63)];
+		this.hpPower = Math.floor(hpPowerX * 40 / 63) + 30;
 
 		this.boosts = {
 			atk: 0, def: 0, spa: 0, spd: 0, spe: 0,
@@ -768,11 +757,11 @@ var BattlePokemon = (function() {
 	};
 	// returns the amount of damage actually healed
 	BattlePokemon.prototype.heal = function(d) {
-		if (!this.hp) return false;
+		if (!this.hp) return 0;
 		d = Math.floor(d);
-		if (isNaN(d)) return false;
-		if (d <= 0) return false;
-		if (this.hp >= this.maxhp) return false;
+		if (isNaN(d)) return 0;
+		if (d <= 0) return 0;
+		if (this.hp >= this.maxhp) return 0;
 		this.hp += d;
 		if (this.hp > this.maxhp) {
 			d -= this.hp - this.maxhp;
@@ -1354,6 +1343,7 @@ var Battle = (function() {
 		m = Math.floor(m);
 		n = Math.floor(n);
 		result = (m ? (n ? Math.floor(result*(n-m) / 0x100000000)+m : Math.floor(result*m / 0x100000000)) : result/0x100000000);
+		this.debug('randBW(' + (m ? (n ? m + ',' + n : m) : '') + ') = ' + result);
 		return result;
 	};
 
@@ -2237,7 +2227,6 @@ var Battle = (function() {
 		return canSwitchIn[Math.floor(Math.random()*canSwitchIn.length)];
 	};
 	Battle.prototype.dragIn = function(side, pos) {
-		if (pos >= side.active.length) return false;
 		var pokemon = this.getRandomSwitchable(side);
 		if (!pos) pos = 0;
 		if (!pokemon || pokemon.isActive) return false;
