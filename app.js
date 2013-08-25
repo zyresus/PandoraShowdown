@@ -394,8 +394,8 @@ if (config.crashguard) {
 			if (quietCrash) return;
 			var stack = (""+err.stack).split("\n").slice(0,2).join("<br />");
 			if (Rooms.lobby) {
-				Rooms.lobby.addRaw('<div class="broadcast-red"><b>THE SERVER HAS CRASHED:</b> '+stack+'<br />Please restart the server.</div>');
-				Rooms.lobby.addRaw('<div class="broadcast-red">You will not be able to talk in the lobby or start new battles until the server restarts.</div>');
+				Rooms.lobby.addRaw('<div class="broadcast-red"><b>El servidor se ha caido.</b> '+stack+'<br />Vamos a reiniciar el servidor.</div>');
+				Rooms.lobby.addRaw('<div class="broadcast-red">No puedes hablar en el lobby ni inicar nuevas batallas.</div>');
 			}
 			config.modchat = 'crash';
 			Rooms.global.lockdown = true;
@@ -522,7 +522,7 @@ server.on('connection', function(socket) {
 			var err = {stack: stack};
 			if (config.crashguard) {
 				try {
-					connection.sendTo(roomid||'lobby', '|html|<div class="broadcast-red"><b>Something crashed!</b><br />Don\'t worry, we\'re working on fixing it.</div>');
+					connection.sendTo(roomid||'lobby', '|html|<div class="broadcast-red"><b>Algo se cayo</b><br />Estamos trabajando para arreglarlo.</div>');
 				} catch (e) {} // don't crash again...
 				process.emit('uncaughtException', err);
 			} else {
