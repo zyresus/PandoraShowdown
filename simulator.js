@@ -7,7 +7,7 @@
  * Pokemon Showdown is just one big happy process.
  *
  * For the actual simulation, see battle-engine.js
- *
+ * 
  * @license MIT license
  */
 
@@ -118,7 +118,7 @@ var Simulator = (function(){
 	Simulator.prototype.sendFor = function(user, action) {
 		var player = this.playerTable[toUserid(user)];
 		if (!player) {
-			console.log('SENDFOR FAILED: Player doesn\'t exist: '+user.name)
+			console.log('SENDFOR FAILED: El jugador no existe: '+user.name)
 			return;
 		}
 
