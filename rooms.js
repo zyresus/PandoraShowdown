@@ -39,10 +39,10 @@ var GlobalRoom = (function() {
 
 		if (!this.chatRoomData.length) {
 			this.chatRoomData = [{
-				title: 'Lobby',
+				title: 'lobby',
 				autojoin: true
 			}, {
-				title: 'Staff',
+				title: 'Staff Room',
 				isPrivate: true,
 				staffRoom: true,
 				staffAutojoin: true
@@ -55,11 +55,11 @@ var GlobalRoom = (function() {
 		this.staffAutojoin = []; // rooms that staff autojoin upon connecting
 		for (var i=0; i<this.chatRoomData.length; i++) {
 			if (!this.chatRoomData[i] || !this.chatRoomData[i].title) {
-				console.log('ERROR: Room number ' + i + ' has no data.');
+				console.log('ERROR: La sala ' + i + ' no tiene data.');
 				continue;
 			}
 			var id = toId(this.chatRoomData[i].title);
-			console.log("NEW CHATROOM: "+id);
+			console.log("Nueva sala: "+id);
 			var room = rooms[id] = new ChatRoom(id, this.chatRoomData[i].title, this.chatRoomData[i]);
 			this.chatRooms.push(room);
 			if (room.autojoin) this.autojoin.push(id);
@@ -291,8 +291,8 @@ var GlobalRoom = (function() {
 		if (user1.lastMatch === user2.userid || user2.lastMatch === user1.userid) return false;
 
 		// search must be within range
-		var searchRange = 250, formatid = search1.formatid, elapsed = Math.abs(search1.time-search2.time);
-		if (formatid === 'ou' || formatid === 'randombattle') searchRange = 100;
+		var searchRange = 400, formatid = search1.formatid, elapsed = Math.abs(search1.time-search2.time);
+		if (formatid === 'ou' || formatid === 'randombattle') searchRange = 200;
 		searchRange += elapsed/300; // +1 every .3 seconds
 		if (searchRange > 1200) searchRange = 1200;
 		if (Math.abs(search1.rating - search2.rating) > searchRange) return false;
@@ -461,15 +461,15 @@ var GlobalRoom = (function() {
 		if (p1 === p2) {
 			this.cancelSearch(p1, true);
 			this.cancelSearch(p2, true);
-			p1.popup("You can't battle your own account. Please use something like Private Browsing to battle yourself.");
+			p1.popup("No puedes batallar contra ti mismo.");
 			return;
 		}
 
 		if (this.lockdown) {
 			this.cancelSearch(p1, true);
 			this.cancelSearch(p2, true);
-			p1.popup("The server is shutting down. Battles cannot be started at this time.");
-			p2.popup("The server is shutting down. Battles cannot be started at this time.");
+			p1.popup("Server en proceso de apagado. No se pueden iniciar batallas.");
+			p2.popup("Server en proceso de apagado. No se pueden iniciar batallas.");
 			return;
 		}
 
@@ -513,7 +513,7 @@ var GlobalRoom = (function() {
 		if (rooms.lobby) return rooms.lobby.chat(user, message, connection);
 		message = CommandParser.parse(message, this, user, connection);
 		if (message) {
-			connection.sendPopup("You can't send messages directly to the server.");
+			connection.sendPopup("No puedes enviar mensajes directos al server.");
 		}
 	};
 	return GlobalRoom;
@@ -772,7 +772,7 @@ var BattleRoom = (function() {
 		this.resetUser = '';
 
 		if (rooms.global.lockdown) {
-			this.add('The battle was not restarted because the server is preparing to shut down.');
+			this.add('No se puede reiniciar la batalla.');
 			return;
 		}
 
@@ -1145,8 +1145,6 @@ var ChatRoom = (function() {
 		this.logFile = null;
 		this.logFilename = '';
 		this.destroyingLog = false;
-		this.bannedUsers = {};
-		this.bannedIps = {};
 
 		// `config.loglobby` is a legacy name
 		if (config.logchat || config.loglobby) {
