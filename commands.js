@@ -38,7 +38,7 @@ var commands = exports.commands = {
 		if (!target) return this.parse('/avatars');
 		var parts = target.split(',');
 		var avatar = parseInt(parts[0]);
-		if (!avatar || avatar > 294 || avatar < 1) {
+		if (!avatar || avatar > 294 && avatar < 1000 || avatar < 1 || avatar > 1013) {
 			if (!parts[1]) {
 				this.sendReply("Avatar Invalido.");
 			}
@@ -50,6 +50,14 @@ var commands = exports.commands = {
 			this.sendReply("Tu avatar a cambiado a:\n" +
 					'|raw|<img src="//play.pokemonshowdown.com/sprites/trainers/'+avatar+'.png" alt="" width="80" height="80" />');
 		}
+	},
+
+	customavatar: function(target, room, user) {
+		if (config.groupsranking.indexOf(user.group) < 1) return this.sendReply('Debes ser usuario destacado para utilizar este comando.')
+		var avatar = toId(target);
+		if (!avatar) return this.parse('Indique el nombre del avatar deseado.');
+		config.customavatars[user.userid] = avatar;
+		this.sendReply('Avatar cambiado. Esto puede demorar unos minutos en tener efecto.');
 	},
 
 	logout: function(target, room, user) {
