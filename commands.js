@@ -10,60 +10,10 @@
  *
  * @license MIT license
  */
- 
-//spamroom
-if (typeof spamroom == "undefined") {
-	spamroom = new Object();
-}
-if (!Rooms.rooms.spamroom) {
-	Rooms.rooms.spamroom = new Rooms.ChatRoom("spamroom", "spamroom");
-	Rooms.rooms.spamroom.isPrivate = true;
-}
 
 var crypto = require('crypto');
 
 var commands = exports.commands = {
-	spam: 'spamroom',
-	spammer: 'spamroom',
-	spamroom: function(target, room, user, connection) {
-		var target = this.splitTarget(target);
-		var targetUser = this.targetUser;
-		if (!targetUser || !targetUser.connected) {
-			return this.sendReply('The user \'' + this.targetUsername + '\' does not exist.');
-		}
-		if (!this.can('mute', targetUser)) {
-			return false;
-		}
-		if (spamroom[targetUser]) {
-			return this.sendReply('That user\'s messages are already being redirected to the spamroom.');
-		}
-		spamroom[targetUser] = true;
-		Rooms.rooms['spamroom'].add('|raw|<b>' + this.targetUsername + ' was added to the spamroom list.</b>');
-		this.logModCommand(targetUser + ' was added to spamroom by ' + user.name);
-		return this.sendReply(this.targetUsername + ' was successfully added to the spamroom list.');
-	},
-
-	unspam: 'unspamroom',
-	unspammer: 'unspamroom',
-	unspamroom: function(target, room, user, connection) {
-		var target = this.splitTarget(target);
-		var targetUser = this.targetUser;
-		if (!targetUser || !targetUser.connected) {
-			return this.sendReply('The user \'' + this.targetUsername + '\' does not exist.');
-		}
-		if (!this.can('mute', targetUser)) {
-			return false;
-		}
-		if (!spamroom[targetUser]) {
-			return this.sendReply('That user is not in the spamroom list.');
-		}
-		for(var u in spamroom)
-			if(targetUser == Users.get(u))
-				delete spamroom[u];
-		Rooms.rooms['spamroom'].add('|raw|<b>' + this.targetUsername + ' was removed from the spamroom list.</b>');
-		this.logModCommand(targetUser + ' was removed from spamroom by ' + user.name);
-		return this.sendReply(this.targetUsername + ' and their alts were successfully removed from the spamroom list.');
-	},
 
 	version: function(target, room, user) {
 		if (!this.canBroadcast()) return;
@@ -71,16 +21,14 @@ var commands = exports.commands = {
 	},
 
 	me: function(target, room, user, connection) {
-		// By default, /me allows a blank message
-		if (target) target = this.canTalk(target);
+		target = this.canTalk(target);
 		if (!target) return;
 
 		return '/me ' + target;
 	},
 
 	mee: function(target, room, user, connection) {
-		// By default, /mee allows a blank message
-		if (target) target = this.canTalk(target);
+		target = this.canTalk(target);
 		if (!target) return;
 
 		return '/mee ' + target;
@@ -203,7 +151,7 @@ var commands = exports.commands = {
 
 	roomowner: function(target, room, user) {
 		if (!room.chatRoomData) {
-			return this.sendReply("/roommod - Esta sala no esta lista para eso.");
+			this.sendReply("/roommod - Esta sala no esta lista para eso.");
 		}
 		var target = this.splitTarget(target, true);
 		var targetUser = this.targetUser;
@@ -365,84 +313,18 @@ var commands = exports.commands = {
 		Rooms.global.autojoinRooms(user, connection)
 	},
 
-
 	join: function(target, room, user, connection) {
-		if (!target) return false;
-                var targetRoom = Rooms.get(target) || Rooms.get(toId(target));
-                if (!targetRoom) {
-                	if (target === 'lobby') return connection.sendTo(target, "|noinit|nonexistent|");
-                        return connection.sendTo(target, "|noinit|nonexistent|The room '"+target+"' does not exist.");
-                }
-                if (!targetRoom.battle && targetRoom !== Rooms.lobby && !user.named) {
-                        return connection.sendTo(target, "|noinit|namerequired|You must have a name in order to join the room '"+target+"'.");
-                }
-                if (user.userid && targetRoom.bannedUsers && user.userid in targetRoom.bannedUsers) {
-			return connection.sendTo(target, "|noinit|joinfailed|You are banned from that room!");
+		var targetRoom = Rooms.get(target) || Rooms.get(toId(target));
+		if (target && !targetRoom) {
+			if (target === 'lobby') return connection.sendTo(target, "|noinit|nonexistent|");
+			return connection.sendTo(target, "|noinit|nonexistent|La sala '"+target+"' no existe.");
 		}
-		if (user.ips && targetRoom.bannedIps) {
-			for (var ip in user.ips) {
-				if (ip in targetRoom.bannedIps) return connection.sendTo(target, "|noinit|joinfailed|You are banned from that room!");
-			}
+		if (targetRoom && targetRoom.isPrivate && !user.named) {
+			return connection.sendTo(target, "|noinit|namerequired|Nesecitas haber tomado un nombre para entrar a la sala '"+target+"'.");
 		}
-                if (!user.joinRoom(targetRoom || room, connection)) {
-                        // This condition appears to be impossible for now.
-                        return connection.sendTo(target, "|noinit|joinfailed|The room '"+target+"' could not be joined.");
-                }
-                if (room.id == "lobby" && !user.welcomed) {
-                	user.welcomed = true;
-                        this.sendReply("|raw|<div class=\"broadcast-blue\"><h2>Bienvenido a Pandora</h2><br>Si tienes alguna duda no dudes en contactar a los miembros del staff (+,%,@,& y ~) o algún usuario destacado ($). Unete a nuestro<a href=\"http://www.facebook.com/groups/446748555432679/\" target=\"_BLANK\"> Grupo de Facebook </a></div>");
-                }
-        },
-
-	roomban: function(target, room, user, connection) {
-		var target = this.splitTarget(target, true);
-		var targetUser = this.targetUser;
-		var name = this.targetUsername;
-		var userid = toId(name);
-		if (!userid || userid === '') return this.sendReply("El usuario '"+name+"' no existe.");
-		if (!this.can('ban', targetUser, room)) return false;
-		if (!Rooms.rooms[room.id].users[userid]) {
-			return this.sendReply('User '+this.targetUsername+' no esta en la sala ' + room.id + '.');
-		}
-		room.bannedUsers[userid] = true;
-		for (var ip in targetUser.ips) {
-			room.bannedIps[ip] = true;
-		}
-		targetUser.popup(user.name+" te ha desterrado de la sala " + room.title + "." + (target ? " (" + target + ")" : ""));
-		this.addModCommand(""+targetUser.name+" fue desterrado de la sala " + room.title + " por "+user.name+"." + (target ? " (" + target + ")" : ""));
-		var alts = targetUser.getAlts();
-		if (alts.length) {
-			this.addModCommand("Las cuentas alternativas de "+targetUser.name+" tambien fueron desterradas de la sala " + room.title + ": "+alts.join(", "));
-			for (var i = 0; i < alts.length; ++i) {
-				var altId = toId(alts[i]);
-				this.add('|unlink|' + altId);
-				room.bannedUsers[altId] = true;
-			}
-		}
-		this.add('|unlink|' + targetUser.userid);
-		targetUser.leaveRoom(room.id);
-	},
-
-	roomunban: function(target, room, user, connection) {
-		var target = this.splitTarget(target, true);
-		var targetUser = this.targetUser;
-		var name = this.targetUsername;
-		var userid = toId(name);
-		if (!userid || userid === '') return this.sendReply("El usuario '"+name+"' no existe.");
-		if (!this.can('ban', targetUser, room)) return false;
-		if (room.bannedUsers[userid]) delete room.bannedUsers[userid];
-		for (var ip in targetUser.ips) {
-			if (room.bannedIps[ip]) delete room.bannedIps[ip];
-		}
-		targetUser.popup(user.name+" ha levantado el destierro sobre ti en la sala " + room.title + ".");
-		this.addModCommand(""+targetUser.name+" ha sido readmitido en la sala " + room.title + " por "+user.name+".");
-		var alts = targetUser.getAlts();
-		if (alts.length) {
-			this.addModCommand("Las cuentas alternativas de "+targetUser.name+" tambien fueron readmitidas en la sala " + room.title + ": "+alts.join(", "));
-			for (var i = 0; i < alts.length; ++i) {
-				var altId = toId(alts[i]);
-				if (room.bannedUsers[altId]) delete room.bannedUsers[altId];
-			}
+		if (!user.joinRoom(targetRoom || room, connection)) {
+			// This condition appears to be impossible for now.
+			return connection.sendTo(target, "|noinit|joinfailed|La sala '"+target+"' no pudo ser encontrada.");
 		}
 	},
 
@@ -483,22 +365,19 @@ var commands = exports.commands = {
 	redir: function (target, room, user, connection) {
 		if (!target) return this.parse('/help redir');
 		target = this.splitTarget(target);
-		var targetUser = this.targetUser || Rooms.get(toId(target));
+		var targetUser = this.targetUser;
 		var targetRoom = Rooms.get(target);
 		if (!targetRoom) {
 			return this.sendReply("La sala '" + target + "' no existe.");
 		}
-		if (!this.can('kick', targetUser, room)) return false;
+		if (!user.can('kick', targetUser, room)) return false;
 		if (!targetUser || !targetUser.connected) {
 			return this.sendReply('El usuario '+this.targetUsername+' no ha sido entocntrado.');
 		}
-		if (Rooms.rooms[targetRoom.id].users[targetUser.userid]) {
-      			return this.sendReply("El usuario " + targetUser.name + " ya se encuentra en la sala " + target + "!");  
-    		}
+		var roomName = (targetRoom.isPrivate)? 'a private room' : 'room ' + target;
 		if (!Rooms.rooms[room.id].users[targetUser.userid]) {
 			return this.sendReply('El usuario '+this.targetUsername+' no se encuentra en la sala ' + room.id + '.');
 		}
-		var roomName = (targetRoom.isPrivate)? 'una sala privada' : 'room ' + target;
 		this.addModCommand(targetUser.name + ' ha sido enviado a la sala ' + roomName + ' por ' + user.name + '.');
 		targetUser.leaveRoom(room);
 		targetUser.joinRoom(target);
@@ -507,32 +386,11 @@ var commands = exports.commands = {
 	m: 'mute',
 	mute: function(target, room, user) {
 		if (!target) return this.parse('/help mute');
-		
-		var commaIndex = target.indexOf(',');
-		if (commaIndex < 0) {
-			var targetOne = target;
-			target = '';
-		} else {
-			var targetOne = target.substr(0, commaIndex);
-			target = target.substr(commaIndex+1).trim();
-		}
-		
-		targetUser = Users.get(targetOne);
-		if (!targetUser && room.recentlytalked) {
-			targetOne = toId(targetOne);
-			for (var i=0; i<room.recentlytalked.length; i++) {
-				var aux = room.recentlytalked[i].substr(0, targetOne.length);
-				if (aux === targetOne) {
-					targetOne = room.recentlytalked[i];
-					break;
-				}
-			}
-			targetUser = Users.get(targetOne);
-		}
-		
+
+		target = this.splitTarget(target);
+		var targetUser = this.targetUser;
 		if (!targetUser) {
-			targetUser = null;
-			return this.sendReply('El usuario '+ targetOne +' no ha sido encontrado.');
+			return this.sendReply('El usuario '+this.targetUsername+' no ha sido encontrado.');
 		}
 		if (!this.can('mute', targetUser, room)) return false;
 		if (targetUser.mutedRooms[room.id] || targetUser.locked || !targetUser.connected) {
@@ -752,7 +610,7 @@ var commands = exports.commands = {
 			return this.sendReply('El grupo \'' + nextGroup + '\' no existe.');
 		}
 		if (!user.checkPromotePermission(currentGroup, nextGroup)) {
-			return this.sendReply('/' + cmd + ' - No tienes el rango suficiente para acceder a este comando.');
+			return this.sendReply('/promote - No tienes el rango suficiente para acceder a este comando.');
 		}
 
 		var isDemotion = (config.groups[nextGroup].rank < config.groups[currentGroup].rank);
